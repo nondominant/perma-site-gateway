@@ -1,6 +1,7 @@
 const {default: Arweave} = require('arweave');
 const {default: TestWeave} = require('testweave-sdk');
 const fs = require('browserify-fs');
+const txid = '4qzTN6AGA0Rtzbz3SslX6DMsGhWNh0u_5paJnpgqBOo'
 
 const arweave = Arweave.init({
   host: 'localhost',
@@ -227,7 +228,7 @@ window.clicked = async function clicked() {
       };
 
 window.getTransaction = async function getTransaction() {
-        arweave.transactions.getData('4qzTN6AGA0Rtzbz3SslX6DMsGhWNh0u_5paJnpgqBOo', {decode: true, string: true}).then(data => {
+        arweave.transactions.getData(txid, {decode: true, string: true}).then(data => {
         console.log(data);
         document.getElementsByTagName("html")[0].innerHTML = data; 
       });
