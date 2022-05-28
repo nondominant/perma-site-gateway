@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+
+
+<html>
+
+    <head>
+
+    </head>
+    <body class="question-page unified-theme">
+      <h1>FAILURE<h1>
+      <button onClick=replace()>replace</button>
+
+
+    
+    <script>
+      function replace() {
+      const data = "<html><head></head><body><h1>SUCCESS</h1></body></html>";
+      document.getElementsByTagName("html")[0].innerHTML = data;
+            };
+    </script>
+    </body>
+    </html>
+

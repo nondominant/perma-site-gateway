@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>GraphQL Query Example</title>
+  </head>
+  <body>
+    <pre><ul  id="code"></ul></pre>
+    <script src="bundle.js"></script>
+    <button onClick=clicked()>click me</button>
+    <script>
+      async function clicked() {
+        const names = ["App-Name", "page"];
+        const values = ["Silkroad", "about"];
+        const data = JSON.stringify({
+         query: `{
+         transactions(
+        tags: {
+            name: "Q29udGVudC1UeXBl",
+            values: "dGV4dC9odG1s"
+        }
+    ) {
+        edges {
+            node {
+                id
+            }
+        }
+    }
+  }`,
+        });
+        const data2 = JSON.stringify({
+          query: `{
+  transactions(tags: [
+    {
+     name: "${window.encodeURI(names[0])}", 
+     values: ["${window.encodeURI(values[0])}"],
+    },
+    {
+     name:"${window.encodeURI(names[1])}",
+     values:"${window.encodeURI(values[1])}"
+     }
+  ], sort:HEIGHT_DESC, first: 1){ 
+    edges {
+      node {
+      id
+      }
+    }
+  }
+}`,
+              });
+        console.log(data2);
+
+        const response = await fetch(
+          'http://localhost:3000/graphql',
+          {
+            method: 'post',
+            body: data2,
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': data.length,
+            },
+          }
+        );
+
+        const json = await response.json();
+        console.log(JSON.stringify(json.data, null, 2));
+        const DOMnode = document.getElementById('code');
+        const node = document.createElement('li');
+        node.textContent = JSON.stringify(json.data);
+        DOMnode.appendChild(node);
+        const d = "puppy";
+        const encoded = window.encodeURI(d);
+        const decoded = window.decodeURI(encoded);
+        console.log(encoded);
+        console.log(decoded);
+      };
+    </script>
+  </body>
+</html>

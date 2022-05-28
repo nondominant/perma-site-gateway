@@ -1,0 +1,11 @@
+---------> data
+
+
+http get -> nginx(resolver) ---------> html page
+
+url ---> DNS -> A-record ---> ip:80 ---> nginx(resolver) ---> html page
+programatically modify A-records to point to current ip of resolver
+
+arweave page resolver (clear net server)
+search bar ---> domain name ----> html rendered inside iframe
+

@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>test page</title>
+  </head>
+  <body>
+    <button onClick=clicked>click me</button>
+    <script src="./bundle.js"></script>
+        <script>
+      async function clicked() {
+        const data = JSON.stringify({
+          query: `{
+         transactions(
+        tags: {
+            name: "page",
+            values: ["home"]
+        }
+    ) {
+        edges {
+            node {
+                id
+            }
+        }
+    }
+  }`,
+        });
+
+        const response = await fetch(
+          'http://localhost:3000/graphql',
+          {
+            method: 'post',
+            body: data,
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': data.length,
+            },
+          }
+        );
+
+        const json = await response.json();
+        document.getElementById('code').innerHTML = 
+          JSON.stringify(json.data);
+      });
+    </script>
+
+  </body>
+</html>

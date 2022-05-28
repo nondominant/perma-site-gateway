@@ -1,0 +1,22 @@
+{
+  "name": "arweave",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "arweave": "^1.10.23",
+    "browserify-fs": "^1.0.0",
+    "graphql": "^16.5.0",
+    "node-fetch": "^3.2.4",
+    "process": "^0.11.10",
+    "testweave-sdk": "^0.2.2",
+    "uniq": "^1.0.1",
+    "util": "^0.12.4"
+  }
+}
