@@ -1,7 +1,7 @@
 const {default: Arweave} = require('arweave');
 const {default: TestWeave} = require('testweave-sdk');
 const fs = require('browserify-fs');
-const txid = '4qzTN6AGA0Rtzbz3SslX6DMsGhWNh0u_5paJnpgqBOo'
+const txid = "l4Ia9EreQmvjLLaiKdk0v9ZV0OHaFTpYq7fNgrk0xyI"
 
 const arweave = Arweave.init({
   host: 'localhost',
@@ -69,7 +69,6 @@ window.sendData = async function sendData() {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <!-- FOR THE CURIOUS: This site was made by @thebarrytone. Don't tell my mom. -->
     
     <title>Motherfucking Website</title>
 </head>
@@ -117,31 +116,37 @@ window.sendData = async function sendData() {
         <h2>This is a website. Look at it.  You've never seen one before.</h2>
         
         <p>Like the man who's never grown out his beard has no idea what his true natural state is, you have no fucking idea what a website is. All you have ever seen are shitty skeuomorphic bastardizations of what should be text communicating a fucking message. This is a real, naked website. Look at it. It's fucking beautiful.</p>
-        
-        <h3>Yes, this is fucking satire, you fuck</h3>
-        
-        <p>I'm not actually saying your shitty site should look like this. What I'm saying is that all the problems we have with websites are <strong>ones we create ourselves</strong>. Websites aren't broken by default, they are functional, high-performing, and accessible. You break them. You son-of-a-bitch.</p>
-        
-        <blockquote cite="https://www.vitsoe.com/us/about/good-design">"Good design is as little design as possible."<br>
-            - some German motherfucker
-        </blockquote>
-    
-    <hr>
-    
-    <h2>Epilogue</h2>
-    <p>From the philosophies expressed (poorly) above, <a href="http://txti.es">txti</a> was created. You should try it today to make your own motherfucking websites.</p>
-    
-    <!-- yes, I know...wanna fight about it? -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    
-      ga('create', 'UA-45956659-1', 'motherfuckingwebsite.com');
-      ga('send', 'pageview');
-    </script>
-    
+    <form
+  action="https://formspree.io/f/mpzbbjkw"
+  method="POST"
+>
+  <label>
+    Your email:
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <button type="submit">Send</button>
+</form>
+
+<ul>
+<li>
+  <a href="#" onClick="(function(){
+  const data = '<html><head><title>totally new page</title></head><body><h1>Another page</h1></body></html>';
+  document.getElementsByTagName('html')[0].innerHTML = data; 
+  })();return false;">navigate</a>
+</li>
+<li>
+  <a href="#" onClick="(function(){
+  alert('Hey i am calling');
+  return false;
+  })();return false;">alert</a>
+</li>
+</ul>
+
 </body>
 </html>
     `;
