@@ -23327,7 +23327,7 @@ function extend() {
 const {default: Arweave} = require('arweave');
 const {default: TestWeave} = require('testweave-sdk');
 const fs = require('browserify-fs');
-const txid = "l4Ia9EreQmvjLLaiKdk0v9ZV0OHaFTpYq7fNgrk0xyI"
+const txid = "cH3vy6Y4Kn1fHrcPT5ykzKvVf7Je5s79RusiHQKAxnY"
 
 const arweave = Arweave.init({
   host: 'localhost',
@@ -23459,6 +23459,12 @@ window.sendData = async function sendData() {
 </form>
 
 <ul>
+<li>
+  <a href="#" onClick="(function(){
+  const data = '<html><head><title>totally new page</title></head><body><h1>Another page</h1></body></html>';
+  document.getElementsByTagName('html')[0].innerHTML = data; 
+  })();return false;">navigate</a>
+</li>
 <li>
   <a href="#" onClick="(function(){
   const data = '<html><head><title>totally new page</title></head><body><h1>Another page</h1></body></html>';
