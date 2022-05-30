@@ -2,7 +2,6 @@
 const {default: Arweave} = require('arweave');
 const {default: TestWeave} = require('testweave-sdk');
 const fs = require('browserify-fs');
-const txid = "dcB7XQH34drUbuzPtGmIWxq2p6v8vZvfz2_Q-Mth1iU"
 const arweave = Arweave.init({
   host: 'localhost',
   port: 1984,
@@ -11,102 +10,71 @@ const arweave = Arweave.init({
   logging: false,
 });
 
-window.sendData = async function sendData() {
+window.p3 = async function p3() {
   const testWeave = await TestWeave.init(arweave);
   let data = ` 
-  
-<!DOCTYPE html>
+ 
+<!doctype html>
 <html>
 <head>
+  <!-- new server -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Txti is a free service that lets you create the fastest, simplest, most shareable web pages on the internet using any phone, tablet, or computer you have.">
+    <meta name="author" content="Barry T. Smith">
     
+    <meta property="og:url" content="http://txti.es">
+    <meta property="og:title" content="txti - Fast web pages for everybody">
+    <meta property="og:image" content="http://txti.es/favicon-196x196.png">
+    <meta property="og:site_name" content="txti">
+    <meta property="og:description" content="Txti is a free service that lets you create the fastest, simplest, most shareable web pages on the internet using any phone, tablet, or computer you have.">
     
-    <title>Motherfucking Website</title>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@txties">
+    <meta name="twitter:creator" content="@thebarrytone">
+    <meta name="twitter:title" content="txti - Fast web pages for everybody">
+    <meta name="twitter:description" content="Txti is a free service that lets you create the fastest, simplest, most shareable web pages on the internet using any phone, tablet, or computer you have.">
+    
+    <title>txti - Fast web pages for everybody</title>
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="icon" type="image/png" href="/favicon-196x196.png" sizes="196x196">
+    <link rel="icon" type="image/png" href="/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#9f00a7">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <link href="/css/styles.min.css" rel="stylesheet" type="text/css">
 </head>
-
 <body>
-    <header>
-        <h1>This is a motherfucking website.</h1>
-        <aside>And it's fucking perfect.</aside>
-    </header>
-        
-        <h2>Seriously, what the fuck else do you want?</h2>
-        
-        <p>You probably build websites and think your shit is special. You think your 13 megabyte parallax-ative home page is going to get you some fucking Awwward banner you can glue to the top corner of your site. You think your 40-pound jQuery file and 83 polyfills give IE7 a boner because it finally has box-shadow. Wrong, motherfucker. Let me describe your perfect-ass website:</p>
-        
-        <ul>
-            <li>Shit's lightweight and loads fast</li>
-            <li>Fits on all your shitty screens</li>
-            <li>Looks the same in all your shitty browsers</li>
-            <li>The motherfucker's accessible to every asshole that visits your site</li>
-            <li>Shit's legible and gets your fucking point across (if you had one instead of just 5mb pics of hipsters drinking coffee)</li>
-        </ul>
-        
-        <h3>Well guess what, motherfucker:</h3>
-        
-        <p>You. Are. Over-designing. Look at this shit. It's a motherfucking website. Why the fuck do you need to animate a fucking trendy-ass banner flag when I hover over that useless piece of shit? You spent hours on it and added 80 kilobytes to your fucking site, and some motherfucker jabbing at it on their iPad with fat sausage fingers will never see that shit. Not to mention blind people will never see that shit, but they don't see any of your shitty shit.</p>
-        
-        <p>You never knew it, but this is your perfect website. Here's why.</p>
-        
-        <h2>It's fucking lightweight</h2>
-        
-        <p>This entire page weighs less than the gradient-meshed facebook logo on your fucking Wordpress site. Did you seriously load 100kb of jQuery UI just so you could animate the fucking background color of a div? You loaded all 7 fontfaces of a shitty webfont just so you could say "Hi." at 100px height at the beginning of your site? You piece of shit.</p>
-        
-        <h2>It's responsive</h2>
-        
-        <p>You dumbass. You thought you needed media queries to be responsive, but no. Responsive means that it responds to whatever motherfucking screensize it's viewed on. This site doesn't care if you're on an iMac or a motherfucking Tamagotchi.</p>
-        
-        <h2>It fucking works</h2>
-        
-        <p>Look at this shit. You can read it ... that is, if you can read, motherfucker. It makes sense. It has motherfucking hierarchy. It's using HTML5 tags so you and your bitch-ass browser know what the fuck's in this fucking site. That's semantics, motherfucker.</p>
-        
-        <p>It has content on the fucking screen. Your site has three bylines and link to your dribbble account, but you spread it over 7 full screens and make me click some bobbing button to show me how cool the jQuery ScrollTo plugin is.</p>
-        
-        <p>Cross-browser compatibility? Load this motherfucker in IE6. I fucking dare you.</p>
-        
-        <h2>This is a website. Look at it.  You've never seen one before.</h2>
-        
-        <p>Like the man who's never grown out his beard has no idea what his true natural state is, you have no fucking idea what a website is. All you have ever seen are shitty skeuomorphic bastardizations of what should be text communicating a fucking message. This is a real, naked website. Look at it. It's fucking beautiful.</p>
-    <form
-  action="https://formspree.io/f/mpzbbjkw"
-  method="POST"
->
-  <label>
-    Your email:
-    <input type="email" name="email">
-  </label>
-  <label>
-    Your message:
-    <textarea name="message"></textarea>
-  </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
+    
+<h1><a href="http://txti.es">txti</a></h1>
+<p>Fast web pages for everybody.</p>
+<a href="http://txti.es/about">What is txti?</a> | <a href="http://txti.es/how">How to use txti</a>
+<h2>Create a txti</h2>
+<form id="create-a-txti" method="post" action="http://txti.es">
+	<label for="content-input" >Content (required)</label>
+	<textarea class="text-input" id="content-input" name="content"></textarea>
+	<input type="hidden" name="form_level" value="1">
+	<p>By continuing, you agree to the <a href="http://txti.es/terms">terms of service.</a></p>
+	<label for="username" class="nope">If you are human, leave this field blank (required):</label><input type="text" id="username" class="nope" name="username">
+	<input type="submit" id="submit" name="submit" value="Save and done">
+	 or <input type="submit" id="increase_form_level" name="increase_form_level" value="Show more options">
 </form>
-
-<ul>
-<li>
-  <a href="#" onClick="(function(){
-  const data = '<html><head><title>totally new page</title></head><body><h1>Another page</h1></body></html>';
-  document.getElementsByTagName('html')[0].innerHTML = data; 
-  })();return false;">navigate</a>
-</li>
-<li>
-  <a href="#" onClick="(function(){
-  const data = '<html><head><title>totally new page</title></head><body><h1>Another page</h1></body></html>';
-  document.getElementsByTagName('html')[0].innerHTML = data; 
-  })();return false;">navigate</a>
-</li>
-<li>
-  <a href="#" onClick="(function(){
-  alert('Hey i am calling');
-  return false;
-  })();return false;">alert</a>
-</li>
-</ul>
-
+    
 </body>
-</html>
+</html> 
     `;
   const dataTransaction = await arweave.createTransaction({
     data,
@@ -136,121 +104,6 @@ window.sendData = async function sendData() {
   console.log(statusAfterMine);
 }
 
-/*
- //uses arql endpoint, but it's throwing a malformed error
-async function retrieve(){
-  console.log("retrieve called");
-  let goodData = await arweave.arql({
-        op: "equals",
-        expr1: "page",
-        expr2: "about"
-  });
-}
-*/
-window.go = async function go() {
-  //graphql query to send to arweave
-        const data = JSON.stringify({
-         query: `{
-         transactions(
-        tags: {
-            name: "QXBwLU5hbWU",
-            values: "U2lsa3JvYWQ"
-        }
-    ) {
-        edges {
-            node {
-                id
-            }
-        }
-    }
-  }`,
-        });
-  //attempting to fetch transaction is from local 
-  //arweave instance using fetch and graphql query
-  //- but data id is empty
-        const response = await fetch(
-          'http://localhost:3000/graphql',
-          {
-            method: 'post',
-            body: data,
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': data.length,
-            },
-          }
-        );
-  //stringify response and insert it into the document
-        const json = await response.json();
-        console.log(JSON.stringify(json.data, null, 2));
-        const idArray = json.data.transactions.edges.map(x => x.node.id);
-    
-        arweave.transactions.getData(idArray[0], {decode: true, string: true}).then(data => {
-        console.log(data);
-        document.getElementsByTagName("html")[0].innerHTML = data; 
-      });
-}
-
-window.clicked = async function clicked() {
-  //graphql query to send to arweave
-        const data = JSON.stringify({
-         query: `{
-         transactions(
-        tags: {
-            name: "QXBwLU5hbWU",
-            values: "U2lsa3JvYWQ"
-        }
-    ) {
-        edges {
-            node {
-                id
-            }
-        }
-    }
-  }`,
-        });
-  //attempting to fetch transaction is from local 
-  //arweave instance using fetch and graphql query
-  //- but data id is empty
-        const response = await fetch(
-          'http://localhost:3000/graphql',
-          {
-            method: 'post',
-            body: data,
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': data.length,
-            },
-          }
-        );
-  //stringify response and insert it into the document
-        const json = await response.json();
-        console.log(JSON.stringify(json.data, null, 2));
-        const DOMnode = document.getElementById('output');
-        //clear old children
-        DOMnode.textContent = '';
-        const node = document.createElement('li');
-
-        const idArray = json.data.transactions.edges.map(x => x.node.id);
-
-        node.textContent = JSON.stringify(idArray);
-        DOMnode.appendChild(node);
-
-        idArray.map(x => {
-          const DOM = document.getElementById('output');
-          const li = document.createElement('li');
-          const node = document.createElement('button');
-          node.innerHTML = x;
-          node.addEventListener("click", function () {
-            alert(`retrieving page stored at ${x}, without DNS`);
-
-            arweave.transactions.getData(x, {decode: true, string: true}).then(data => {
-            document.getElementsByTagName("html")[0].innerHTML = data; 
-          });
-          });
-          li.appendChild(node);
-          DOM.appendChild(li);
-        });
-};
 
 
 },{"arweave":11,"browserify-fs":55,"testweave-sdk":154}],2:[function(require,module,exports){

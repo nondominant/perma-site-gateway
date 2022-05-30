@@ -1,8 +1,7 @@
 const {default: Arweave} = require('arweave');
 const {default: TestWeave} = require('testweave-sdk');
 const fs = require('browserify-fs');
-const txid = "cH3vy6Y4Kn1fHrcPT5ykzKvVf7Je5s79RusiHQKAxnY"
-
+const txid = "dcB7XQH34drUbuzPtGmIWxq2p6v8vZvfz2_Q-Mth1iU"
 const arweave = Arweave.init({
   host: 'localhost',
   port: 1984,
@@ -10,54 +9,6 @@ const arweave = Arweave.init({
   timeout: 20000,
   logging: false,
 });
-
-//hardcoded for testing
-const site1 = `
-<html>
-<head>
-<title>NOTfacebook</title>
-</head>
-<body>
-<h1>Welcome to NOTFacebook</h1>
-</body>
-</html>
-`
-const site4 = `
-<html>
-<head>
-<title>NOTTinder</title>
-</head>
-<body>
-<h1>Welcome to NOTTinder</h1>
-</body>
-</html>
-`
-const site3 = `
-<html>
-<head>
-<title>NOTInstagram</title>
-</head>
-<body>
-<h1>Welcome to NOTInstagram</h1>
-</body>
-</html>
-`
-const site2 = `
-<html>
-<head>
-<title>NOTTwitter</title>
-</head>
-<body>
-<h1>Welcome to NOTTwitter</h1>
-</body>
-</html>
-`
-const ar = [site1, site2, site3, site4];
-window.go = function go(){
-    const search_term = document.querySelector('input').value;
-    const doc = ar[search_term.length % ar.length];
-    document.getElementsByTagName("html")[0].innerHTML = doc; 
-}
 
 window.sendData = async function sendData() {
   const testWeave = await TestWeave.init(arweave);
@@ -176,12 +127,12 @@ window.sendData = async function sendData() {
   const statusAfterPost = await arweave.transactions.getStatus(dataTransaction.id)
   console.log(statusAfterPost);
   //instantly mine block !!
+  console.log("about to mine");
   await testWeave.mine();
+  console.log("after mined");
   const statusAfterMine = await arweave.transactions.getStatus(dataTransaction.id);
   console.log(dataTransaction);
-
   console.log(statusAfterMine);
-
 }
 
 /*
@@ -195,15 +146,14 @@ async function retrieve(){
   });
 }
 */
-
-window.clicked = async function clicked() {
+window.go = async function go() {
   //graphql query to send to arweave
         const data = JSON.stringify({
          query: `{
          transactions(
         tags: {
-            name: "Q29udGVudC1UeXBl",
-            values: "dGV4dC9odG1s"
+            name: "QXBwLU5hbWU",
+            values: "U2lsa3JvYWQ"
         }
     ) {
         edges {
@@ -221,7 +171,50 @@ window.clicked = async function clicked() {
           'http://localhost:3000/graphql',
           {
             method: 'post',
-            body: data2,
+            body: data,
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': data.length,
+            },
+          }
+        );
+  //stringify response and insert it into the document
+        const json = await response.json();
+        console.log(JSON.stringify(json.data, null, 2));
+        const idArray = json.data.transactions.edges.map(x => x.node.id);
+    
+        arweave.transactions.getData(idArray[0], {decode: true, string: true}).then(data => {
+        console.log(data);
+        document.getElementsByTagName("html")[0].innerHTML = data; 
+      });
+}
+
+window.clicked = async function clicked() {
+  //graphql query to send to arweave
+        const data = JSON.stringify({
+         query: `{
+         transactions(
+        tags: {
+            name: "QXBwLU5hbWU",
+            values: "U2lsa3JvYWQ"
+        }
+    ) {
+        edges {
+            node {
+                id
+            }
+        }
+    }
+  }`,
+        });
+  //attempting to fetch transaction is from local 
+  //arweave instance using fetch and graphql query
+  //- but data id is empty
+        const response = await fetch(
+          'http://localhost:3000/graphql',
+          {
+            method: 'post',
+            body: data,
             headers: {
               'Content-Type': 'application/json',
               'Content-Length': data.length,
@@ -232,6 +225,8 @@ window.clicked = async function clicked() {
         const json = await response.json();
         console.log(JSON.stringify(json.data, null, 2));
         const DOMnode = document.getElementById('output');
+        //clear old children
+        DOMnode.textContent = '';
         const node = document.createElement('li');
 
         const idArray = json.data.transactions.edges.map(x => x.node.id);
@@ -239,12 +234,20 @@ window.clicked = async function clicked() {
         node.textContent = JSON.stringify(idArray);
         DOMnode.appendChild(node);
 
-      };
+        idArray.map(x => {
+          const DOM = document.getElementById('output');
+          const li = document.createElement('li');
+          const node = document.createElement('button');
+          node.innerHTML = x;
+          node.addEventListener("click", function () {
+            alert(`retrieving page stored at ${x}, without DNS`);
 
-window.getTransaction = async function getTransaction() {
-        arweave.transactions.getData(txid, {decode: true, string: true}).then(data => {
-        console.log(data);
-        document.getElementsByTagName("html")[0].innerHTML = data; 
-      });
-}
+            arweave.transactions.getData(x, {decode: true, string: true}).then(data => {
+            document.getElementsByTagName("html")[0].innerHTML = data; 
+          });
+          });
+          li.appendChild(node);
+          DOM.appendChild(li);
+        });
+};
 

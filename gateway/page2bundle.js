@@ -2,7 +2,6 @@
 const {default: Arweave} = require('arweave');
 const {default: TestWeave} = require('testweave-sdk');
 const fs = require('browserify-fs');
-const txid = "dcB7XQH34drUbuzPtGmIWxq2p6v8vZvfz2_Q-Mth1iU"
 const arweave = Arweave.init({
   host: 'localhost',
   port: 1984,
@@ -11,102 +10,84 @@ const arweave = Arweave.init({
   logging: false,
 });
 
-window.sendData = async function sendData() {
+window.p2 = async function p2() {
   const testWeave = await TestWeave.init(arweave);
   let data = ` 
-  
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    
-    <title>Motherfucking Website</title>
-</head>
-
-<body>
-    <header>
-        <h1>This is a motherfucking website.</h1>
-        <aside>And it's fucking perfect.</aside>
-    </header>
-        
-        <h2>Seriously, what the fuck else do you want?</h2>
-        
-        <p>You probably build websites and think your shit is special. You think your 13 megabyte parallax-ative home page is going to get you some fucking Awwward banner you can glue to the top corner of your site. You think your 40-pound jQuery file and 83 polyfills give IE7 a boner because it finally has box-shadow. Wrong, motherfucker. Let me describe your perfect-ass website:</p>
-        
-        <ul>
-            <li>Shit's lightweight and loads fast</li>
-            <li>Fits on all your shitty screens</li>
-            <li>Looks the same in all your shitty browsers</li>
-            <li>The motherfucker's accessible to every asshole that visits your site</li>
-            <li>Shit's legible and gets your fucking point across (if you had one instead of just 5mb pics of hipsters drinking coffee)</li>
-        </ul>
-        
-        <h3>Well guess what, motherfucker:</h3>
-        
-        <p>You. Are. Over-designing. Look at this shit. It's a motherfucking website. Why the fuck do you need to animate a fucking trendy-ass banner flag when I hover over that useless piece of shit? You spent hours on it and added 80 kilobytes to your fucking site, and some motherfucker jabbing at it on their iPad with fat sausage fingers will never see that shit. Not to mention blind people will never see that shit, but they don't see any of your shitty shit.</p>
-        
-        <p>You never knew it, but this is your perfect website. Here's why.</p>
-        
-        <h2>It's fucking lightweight</h2>
-        
-        <p>This entire page weighs less than the gradient-meshed facebook logo on your fucking Wordpress site. Did you seriously load 100kb of jQuery UI just so you could animate the fucking background color of a div? You loaded all 7 fontfaces of a shitty webfont just so you could say "Hi." at 100px height at the beginning of your site? You piece of shit.</p>
-        
-        <h2>It's responsive</h2>
-        
-        <p>You dumbass. You thought you needed media queries to be responsive, but no. Responsive means that it responds to whatever motherfucking screensize it's viewed on. This site doesn't care if you're on an iMac or a motherfucking Tamagotchi.</p>
-        
-        <h2>It fucking works</h2>
-        
-        <p>Look at this shit. You can read it ... that is, if you can read, motherfucker. It makes sense. It has motherfucking hierarchy. It's using HTML5 tags so you and your bitch-ass browser know what the fuck's in this fucking site. That's semantics, motherfucker.</p>
-        
-        <p>It has content on the fucking screen. Your site has three bylines and link to your dribbble account, but you spread it over 7 full screens and make me click some bobbing button to show me how cool the jQuery ScrollTo plugin is.</p>
-        
-        <p>Cross-browser compatibility? Load this motherfucker in IE6. I fucking dare you.</p>
-        
-        <h2>This is a website. Look at it.  You've never seen one before.</h2>
-        
-        <p>Like the man who's never grown out his beard has no idea what his true natural state is, you have no fucking idea what a website is. All you have ever seen are shitty skeuomorphic bastardizations of what should be text communicating a fucking message. This is a real, naked website. Look at it. It's fucking beautiful.</p>
-    <form
-  action="https://formspree.io/f/mpzbbjkw"
-  method="POST"
->
-  <label>
-    Your email:
-    <input type="email" name="email">
-  </label>
-  <label>
-    Your message:
-    <textarea name="message"></textarea>
-  </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
-</form>
-
-<ul>
-<li>
-  <a href="#" onClick="(function(){
-  const data = '<html><head><title>totally new page</title></head><body><h1>Another page</h1></body></html>';
-  document.getElementsByTagName('html')[0].innerHTML = data; 
-  })();return false;">navigate</a>
-</li>
-<li>
-  <a href="#" onClick="(function(){
-  const data = '<html><head><title>totally new page</title></head><body><h1>Another page</h1></body></html>';
-  document.getElementsByTagName('html')[0].innerHTML = data; 
-  })();return false;">navigate</a>
-</li>
-<li>
-  <a href="#" onClick="(function(){
-  alert('Hey i am calling');
-  return false;
-  })();return false;">alert</a>
-</li>
-</ul>
-
-</body>
-</html>
+ 
+<HEADER>
+<TITLE>The World Wide Web project</TITLE>
+<NEXTID N="55">
+</HEADER>
+<BODY>
+<H1>World Wide Web</H1>The WorldWideWeb (W3) is a wide-area<A
+NAME=0 HREF="WhatIs.html">
+hypermedia</A> information retrieval
+initiative aiming to give universal
+access to a large universe of documents.<P>
+Everything there is online about
+W3 is linked directly or indirectly
+to this document, including an <A
+NAME=24 HREF="Summary.html">executive
+summary</A> of the project, <A
+NAME=29 HREF="Administration/Mailing/Overview.html">Mailing lists</A>
+, <A
+NAME=30 HREF="Policy.html">Policy</A> , November's  <A
+NAME=34 HREF="News/9211.html">W3  news</A> ,
+<A
+NAME=41 HREF="FAQ/List.html">Frequently Asked Questions</A> .
+<DL>
+<DT><A
+NAME=44 HREF="../DataSources/Top.html">What's out there?</A>
+<DD> Pointers to the
+world's online information,<A
+NAME=45 HREF="../DataSources/bySubject/Overview.html"> subjects</A>
+, <A
+NAME=z54 HREF="../DataSources/WWW/Servers.html">W3 servers</A>, etc.
+<DT><A
+NAME=46 HREF="Help.html">Help</A>
+<DD> on the browser you are using
+<DT><A
+NAME=13 HREF="Status.html">Software Products</A>
+<DD> A list of W3 project
+components and their current state.
+(e.g. <A
+NAME=27 HREF="LineMode/Browser.html">Line Mode</A> ,X11 <A
+NAME=35 HREF="Status.html#35">Viola</A> ,  <A
+NAME=26 HREF="NeXT/WorldWideWeb.html">NeXTStep</A>
+, <A
+NAME=25 HREF="Daemon/Overview.html">Servers</A> , <A
+NAME=51 HREF="Tools/Overview.html">Tools</A> ,<A
+NAME=53 HREF="MailRobot/Overview.html"> Mail robot</A> ,<A
+NAME=52 HREF="Status.html#57">
+Library</A> )
+<DT><A
+NAME=47 HREF="Technical.html">Technical</A>
+<DD> Details of protocols, formats,
+program internals etc
+<DT><A
+NAME=40 HREF="Bibliography.html">Bibliography</A>
+<DD> Paper documentation
+on  W3 and references.
+<DT><A
+NAME=14 HREF="People.html">People</A>
+<DD> A list of some people involved
+in the project.
+<DT><A
+NAME=15 HREF="History.html">History</A>
+<DD> A summary of the history
+of the project.
+<DT><A
+NAME=37 HREF="Helping.html">How can I help</A> ?
+<DD> If you would like
+to support the web..
+<DT><A
+NAME=48 HREF="../README.html">Getting code</A>
+<DD> Getting the code by<A
+NAME=49 HREF="LineMode/Defaults/Distribution.html">
+anonymous FTP</A> , etc.</A>
+</DL>
+</BODY>
+ 
     `;
   const dataTransaction = await arweave.createTransaction({
     data,
@@ -136,121 +117,6 @@ window.sendData = async function sendData() {
   console.log(statusAfterMine);
 }
 
-/*
- //uses arql endpoint, but it's throwing a malformed error
-async function retrieve(){
-  console.log("retrieve called");
-  let goodData = await arweave.arql({
-        op: "equals",
-        expr1: "page",
-        expr2: "about"
-  });
-}
-*/
-window.go = async function go() {
-  //graphql query to send to arweave
-        const data = JSON.stringify({
-         query: `{
-         transactions(
-        tags: {
-            name: "QXBwLU5hbWU",
-            values: "U2lsa3JvYWQ"
-        }
-    ) {
-        edges {
-            node {
-                id
-            }
-        }
-    }
-  }`,
-        });
-  //attempting to fetch transaction is from local 
-  //arweave instance using fetch and graphql query
-  //- but data id is empty
-        const response = await fetch(
-          'http://localhost:3000/graphql',
-          {
-            method: 'post',
-            body: data,
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': data.length,
-            },
-          }
-        );
-  //stringify response and insert it into the document
-        const json = await response.json();
-        console.log(JSON.stringify(json.data, null, 2));
-        const idArray = json.data.transactions.edges.map(x => x.node.id);
-    
-        arweave.transactions.getData(idArray[0], {decode: true, string: true}).then(data => {
-        console.log(data);
-        document.getElementsByTagName("html")[0].innerHTML = data; 
-      });
-}
-
-window.clicked = async function clicked() {
-  //graphql query to send to arweave
-        const data = JSON.stringify({
-         query: `{
-         transactions(
-        tags: {
-            name: "QXBwLU5hbWU",
-            values: "U2lsa3JvYWQ"
-        }
-    ) {
-        edges {
-            node {
-                id
-            }
-        }
-    }
-  }`,
-        });
-  //attempting to fetch transaction is from local 
-  //arweave instance using fetch and graphql query
-  //- but data id is empty
-        const response = await fetch(
-          'http://localhost:3000/graphql',
-          {
-            method: 'post',
-            body: data,
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': data.length,
-            },
-          }
-        );
-  //stringify response and insert it into the document
-        const json = await response.json();
-        console.log(JSON.stringify(json.data, null, 2));
-        const DOMnode = document.getElementById('output');
-        //clear old children
-        DOMnode.textContent = '';
-        const node = document.createElement('li');
-
-        const idArray = json.data.transactions.edges.map(x => x.node.id);
-
-        node.textContent = JSON.stringify(idArray);
-        DOMnode.appendChild(node);
-
-        idArray.map(x => {
-          const DOM = document.getElementById('output');
-          const li = document.createElement('li');
-          const node = document.createElement('button');
-          node.innerHTML = x;
-          node.addEventListener("click", function () {
-            alert(`retrieving page stored at ${x}, without DNS`);
-
-            arweave.transactions.getData(x, {decode: true, string: true}).then(data => {
-            document.getElementsByTagName("html")[0].innerHTML = data; 
-          });
-          });
-          li.appendChild(node);
-          DOM.appendChild(li);
-        });
-};
 
 
 },{"arweave":11,"browserify-fs":55,"testweave-sdk":154}],2:[function(require,module,exports){

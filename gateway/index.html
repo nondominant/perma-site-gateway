@@ -1,14 +1,19 @@
 <html>
   <head>
 <script src="bundle.js"></script>
+<script src="page2bundle.js"></script>
+<script src="page3bundle.js"></script>
+<script src="page4bundle.js"></script>
   </head>
   <body>
 <h2>Web 2 gateway to decentralized sites</h2>
 <input type="text" id="search" placeholder="enter site name \'blog.ar\'" />
-<button onClick=go()>GO</button>
 <button onClick=clicked()>query arweave</button>
+<button onClick=go()>go to retrieved id</button>
 <button onClick=sendData()>post data to testnet</button>
-<button onClick=getTransaction()>get data from hard coded transaction id</button>
+<button onClick=p2()>p2</button>
+<button onClick=p3()>p3</button>
+<button onClick=p4()>p4</button>
 <ul id="output"></ul>
 
 <footer>
