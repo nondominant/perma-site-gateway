@@ -233,7 +233,10 @@ window.clicked = async function clicked() {
         console.log(JSON.stringify(json.data, null, 2));
         const DOMnode = document.getElementById('output');
         const node = document.createElement('li');
-        node.textContent = JSON.stringify(json.data);
+
+        const idArray = json.data.transactions.edges.map(x => x.node.id);
+
+        node.textContent = JSON.stringify(idArray);
         DOMnode.appendChild(node);
 
       };
