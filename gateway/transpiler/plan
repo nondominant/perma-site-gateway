@@ -1,0 +1,46 @@
+#!/bin/bash
+
+cat bundle.js > target.js
+
+/usr/bin/vim -s script.sh index.html 2>&1 > error.txt 
+/usr/bin/vim -s another.sh index.html 2>&1> e2rror.txt
+
+echo "successful"
+
+{
+
+generate config.src.files
+cat file.txt | grep "<script" > config.src.files
+vim search and replace <script src=\(.*\)>.*<\\/script> with \\/1
+
+vim: replace script tags with <script>$$$$<script
+
+python: string.split('$$$$')
+
+read config file
+file1.js
+file2.js
+file3.js
+
+reconstruct file as string[0], file1.js, string[1], file2.js ...etc
+
+write file out
+} repeat for <style> tags
+
+config file of url => transaction id
+
+===replace buttons
+<a href=url>text</a>
+
+<a href="#" onClick="(function(){
+arweave.transactions.getData(   url   ,{decode: true, string:true}).then(
+data => {
+document.getElementsByTagName('html')[0].innerHTML = data;
+});
+})();return false;">text</a>
+
+read in config into json object
+iterate over json object node array
+python string.replace(node.url, node.id)
+
+

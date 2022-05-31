@@ -151,6 +151,7 @@ window.go = async function go() {
         const data = JSON.stringify({
          query: `{
          transactions(
+         sort: HEIGHT_DESC,
         tags: {
             name: "QXBwLU5hbWU",
             values: "U2lsa3JvYWQ"
