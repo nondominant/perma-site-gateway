@@ -1,10 +1,10 @@
 #!/usr/bin/vim -s 
 
-:execute "%s/<script>/\r\n<script>/g"
-:execute "%s/<\\/script>/<\\/script>\r\n/g"
+:execute "%s/<script/\\r<script/g"
+:execute "%s/<\\/script>/<\\/script>\\r/g"
 
-:execute "%s/<style>/\r\n<style>/g"
-:execute "%s/<\\/style>/<\\/style>\r\n/g"
+:execute "%s/<style/\\r<style/g"
+:execute "%s/<\\/style>/<\\/style>\\r/g"
 
 :x
 

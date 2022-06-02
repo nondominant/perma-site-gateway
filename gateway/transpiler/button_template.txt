@@ -1,0 +1,6 @@
+<a href="#" onClick="(function(){
+arweave.transactions.getData($$url$$,{decode: true, string:true}).then(
+data => {
+document.getElementsByTagName('html')[0].innerHTML = data;
+});
+})();return false;">$$text$$</a>

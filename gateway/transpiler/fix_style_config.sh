@@ -1,6 +1,6 @@
 #!/usr/bin/vim -s 
 
-:let searchpattern = "<script\"\\(.*\\)\">.*<.*script>"
+:let searchpattern = "<style.*\"\\(.*\\)\">.*<.*style>"
 
 :execute "%s/" . searchpattern . "/\\1/g"
 :x
