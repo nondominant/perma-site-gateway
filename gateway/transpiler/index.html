@@ -9,8 +9,34 @@
   <body>
 <h2>Web 2 gateway to decentralized sites</h2>
 <input type="text" id="search" placeholder="enter site name \'blog.ar\'" />
+
 <a href="home">HOME</a>
 <a href="about">ABOUT</a>
+
+
+<a id="domain_home_user_id" href="#">HOME</a>
+<a id="domain_ABOUT" href="#">ABOUT</a>
+
+<script>
+  Array.from(document.querySelectorAll("a")).forEach((link) => {
+      const id = link.getAttribute("id");
+      let txid = localstorage.getitem(id)
+      link.setAttribute("onclick", `navigate(${txid})`);
+    });
+</script>
+
+<arweave function>
+
+href=/home ----> $home$ ---> id
+
+
+
+
+
+
+
+
+
 <button onClick=clicked()>query arweave</button>
 <button onClick=go()>go to retrieved id</button>
 <button onClick=sendData()>post data to testnet</button>

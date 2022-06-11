@@ -1,0 +1,97 @@
+<html>
+  <head>
+
+<script src="bundle.js"></script>
+  </head>
+
+  <body>
+<h2>Web 2 gateway to decentralized sites</h2>
+<input type="text" id="search" placeholder="enter site name \'blog.ar\'" />
+<a id="home" href="home">Home </a>
+<a id="about" href="about">Home </a>
+<a id="contact" href="contact">Home </a>
+
+<ul id="output"></ul>
+
+<footer>
+	<p>
+		Websites stored on
+    <a target="_blank" href="https://arweave.org">Arweave</a>
+    last forever. This website can get taken down but they'll still be there
+	</p>
+</footer>
+
+<!--replace anchor tags in browser -->
+<script>
+  //arweave function call
+function navigate(id){
+arweave.transactions.getData(id,{decode: true, string:true}).then(
+data => {
+document.getElementsByTagName('html')[0].innerHTML = data;
+});
+};
+//get variables (id's), from tag search
+let pages = ["home","contact","about"]
+let txidArray =  (async() => 
+    return await Promise.all(
+        pages.map(async(x, i) => 
+            ({ "page": pages[i], "id": await window.tagQuery(x)})
+          )
+      )
+  )();
+window.tagQuery = async function tagQuery(page) {
+    const root = "domain_name"
+    const page_encoded = encode(page)
+    const root_encoded = encode(root)
+  //graphql query to send to arweave
+        const data = JSON.stringify({
+         query: `{
+         transactions(
+         sort: HEIGHT_DESC,
+        tags: {
+            name: "home",
+           values: "${page_encoded}",
+           name: "root",
+           values: "${root}"
+        }
+    ) {
+        edges {
+            node {
+                id
+            }
+        }
+    }
+  }`,
+        });
+  //attempting to fetch transaction is from local 
+  //arweave instance using fetch and graphql query
+  //- but data id is empty
+        const response = await fetch(
+          'http://localhost:3000/graphql',
+          {
+            method: 'post',
+            body: data,
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': data.length,
+            },
+          }
+        );
+  //stringify response and return most recent txid
+        const json = await response.json();
+        console.log(JSON.stringify(json.data, null, 2));
+        //get transaction id's
+        const idArray = json.data.transactions.edges.map(x => x.node.id);
+        return idArray[0]
+};
+  //insert onclick attribute on all <a> tags
+  Array.From(document.querySelectorAll('a')).forEach(link => {
+      const index = pages.findIndex(link.getAttribute('id'));
+      const txid = txidArray[index];
+      link.setAttribute('href', '#');
+      link.setAttribute("onclick", `navigate(${txid})`);
+    }
+</script>
+
+  </body>
+</html>

@@ -1,12 +1,10 @@
----------> data
+http request --> end point 
 
+[return capture] 
+[request email / phone] text or email when connection is open
 
-http get -> nginx(resolver) ---------> html page
-
-url ---> DNS -> A-record ---> ip:80 ---> nginx(resolver) ---> html page
-programatically modify A-records to point to current ip of resolver
-
-arweave page resolver (clear net server)
-search bar ---> domain name ----> html rendered inside iframe
-
+--> check concurrent 
+visitors --> return wait room and ip, push ip into queue --> pop last 
+visitor, drop connection --> pop waiting ip --> open connection with new 
+visitor
 

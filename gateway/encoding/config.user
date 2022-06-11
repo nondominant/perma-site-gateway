@@ -1,0 +1,6 @@
+root: domain.com
+pages: [
+home,
+about,
+contact
+]

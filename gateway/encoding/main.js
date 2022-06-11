@@ -13,7 +13,6 @@ const arweave = Arweave.init({
 window.sendData = async function sendData() {
   const testWeave = await TestWeave.init(arweave);
   let data = ` 
-  
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,8 +114,15 @@ window.sendData = async function sendData() {
   //addres is MlV6DeOtRmakDOf6vgOBlif795tcWimgyPsYYNQ8q1Y
 
   //add tags -- these are used when querying data
-  dataTransaction.addTag('App-Name', 'Silkroad');
-  dataTransaction.addTag('page', 'about');
+  dataTransaction.addTag('one', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+  dataTransaction.addTag('two', 'abcdefghijklmnopqrstuvwxyz');
+  dataTransaction.addTag('three', 'ABCD');
+  dataTransaction.addTag('four', 'abcd');
+  dataTransaction.addTag('five', 'XYZ');
+  dataTransaction.addTag('six', 'xyz');
+  dataTransaction.addTag('seven', '1234567890');
+  dataTransaction.addTag('eight', '_');
+  dataTransaction.addTag('nine', '-');
 
   //sign transaction
   await arweave.transactions.sign(dataTransaction, testWeave.rootJWK);
@@ -153,10 +159,8 @@ window.go = async function go() {
          transactions(
          sort: HEIGHT_DESC,
         tags: {
-            name: "domain",
-            values: "value",
-            name: "home",
-            values: "xdlkajddfskjglshd"
+            name: "QXBwLU5hbWU",
+            values: "U2lsa3JvYWQ"
         }
     ) {
         edges {
