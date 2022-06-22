@@ -1,17 +1,34 @@
+<html>
+  <head>
 
+  </head>
 
-<!--arweave function call -->
+  <body>
+<h2>Web 2 gateway to decentralized sites</h2>
+<input type="text" id="search" placeholder="enter site name \'blog.ar\'" />
+<a id="home" href="home">Home </a>
+<a id="about" href="about">Home </a>
+<a id="contact" href="contact">Home </a>
+
+<ul id="output"></ul>
+
+<footer>
+	<p>
+		Websites stored on
+    <a target="_blank" href="https://arweave.org">Arweave</a>
+    last forever. This website can get taken down but they'll still be there
+	</p>
+</footer>
+
+<!--replace anchor tags in browser -->
 <script>
+  //arweave function call
 function navigate(id){
 arweave.transactions.getData(id,{decode: true, string:true}).then(
 data => {
 document.getElementsByTagName('html')[0].innerHTML = data;
 });
 };
-</script>
-
-<!--replace anchor tags in browser -->
-<script>
 //get variables (id's), from tag search
 let pages = ["home","contact","about"]
 let txidArray =  (async() => 
@@ -74,3 +91,6 @@ window.tagQuery = async function tagQuery(page) {
       link.setAttribute("onclick", `navigate(${txid})`);
     });
 </script>
+
+  </body>
+</html>

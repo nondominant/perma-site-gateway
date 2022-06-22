@@ -1,9 +1,11 @@
 const express = require('express');
+const cors = require('cors');
 const {json, urlencoded} = express;
 
 const app = express();
-app.use(json);
-app.use(urlencoded({ extended: true}))
+app.use(cors())
+//app.use(json);
+//app.use(urlencoded({ extended: true}))
 
 app.post('/mirror', (req, res) => {
   console.log("hit");
