@@ -1,7 +1,7 @@
 const {default: Arweave} = require('arweave');
 const {default: TestWeave} = require('testweave-sdk');
 const fs = require('browserify-fs');
-const txid = "s6aYcwNhmv-KRm6Xw3oGslR0vZlwajuj8Yl_zgpKSeM"
+const txid = "1zDzzAggXv2ZnmwIQiOtA6CR-6vzguoWU3Tal48Y__s"
 const arweave = Arweave.init({
   host: 'localhost',
   port: 1984,
@@ -15,6 +15,7 @@ window.load = async function load() {
   console.log("loading");
           arweave.transactions.getData(txid, {decode: true, string: true}).then(data => {
             document.createElement('script');
+          console.log(data);
           fetch(
             'http://localhost:5000/mirror',
             {
