@@ -1,8 +1,6 @@
-(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const {default: Arweave} = require('arweave');
 const {default: TestWeave} = require('testweave-sdk');
 const fs = require('browserify-fs');
-const txid ="C8oF-8EHYVzVh_3bxAGngyX7-OwGAg8cjK9CwkPuE38"
 const arweave = Arweave.init({
   host: 'localhost',
   port: 1984,
@@ -11,55 +9,28 @@ const arweave = Arweave.init({
   logging: false,
 });
 
-
-window.load = async function load() {
-  console.log("loading");
-  await arweave.transactions.getData(txid, {decode: true, string: true})
-    .then(data => {
-            document.createElement('script');
-            document.getElementsByTagName('body')[0].innerHTML = data;
-      })
-    .then(() => {
-          let scripts = document.getElementsByTagName('script');
-          for (let i = 0; i < scripts.length; i++) {
-            console.log(scripts[i].innerHTML);
-            scripts[i].setAttribute("id", i);
-            if (i == 1) {
-              //grab the node we want to load properly
-              let newScript = document.createElement('script');
-              newScript.setAttribute("id", "test");
-              newScript.setAttribute("defer", '');
-              newScript.innerHTML = scripts[i].innerHTML;
-              document.head.appendChild(newScript)
-              //then remove the node it is replacing
-              document.getElementById(i).remove();
-            }
-          }
-      });
-      
-      window.document.dispatchEvent(new Event("DOMContentLoaded", {
-        bubbles: true,
-        cancelable: true
-      }));
-      
-}
+let button = document.createElement('button');
+button.setAttribute('onclick', 'deployHome()');
+button.innerHTML = "deploy";
+document.body.appendChild(button);
 
 window.deployHome = async function deployHome() {
   const testWeave = await TestWeave.init(arweave);
-  let data = ` 
-<html>
+  let data =
+    `
+  <html>
   <head>
-
   </head>
-
   <body>
-<h2>Web 2 gateway to decentralized sites PAGE 1</h2>
-<input type="text" id="search" placeholder="enter site name \'blog.ar\'" />
-<a id="aG9tZQ" href="#">Home </a>
-<a id="Y29udGFjdA" href="#">Home </a>
-<a id="YWJvdXQ" href="#">Home </a>
+<h2>Bank of International Settlements</h2>
+<p>
+As an organization of central banks, the BIS seeks to make monetary policy more predictable and transparent among its 60-member central banks, except in the case of Eurozone countries which forfeited the right to conduct monetary policy in order to implement the euro. While monetary policy is determined by most sovereign nations, it is subject to central and private banking scrutiny and potentially to speculation that affects foreign exchange rates and especially the fate of export economies. BIS aims to keep monetary policy in line with reality and to help implement monetary reforms in time, preferably as a simultaneous policy among all 60 member banks and also involving the International Monetary Fund.
 
-<ul id="output"></ul>
+Central banks do not unilaterally "set" rates, rather they set goals and intervene using their massive financial resources and regulatory powers to achieve monetary targets they set. One reason to coordinate policy closely is to ensure that this does not become too expensive and that opportunities for private arbitrage exploiting shifts in policy or difference in policy, are rare and quickly removed.
+
+Two aspects of monetary policy have proven to be particularly sensitive, and the BIS, therefore, has two specific goals: to regulate capital adequacy and make reserve requirements transparent.
+</p>
+
 
 <footer>
 	<p>
@@ -68,21 +39,32 @@ window.deployHome = async function deployHome() {
     last forever. This website can get taken down but they'll still be there
 	</p>
 </footer>
-
-<!--replace anchor tags in browser -->
 <script>
-  //arweave function call
-window.navigate = function navigate(id){
-arweave.transactions.getData(id,{decode: true, string:true}).then(
-data => {
-document.getElementsByTagName('html')[0].innerHTML = data;
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const {default: Arweave} = require('arweave');
+const {default: TestWeave} = require('testweave-sdk');
+const fs = require('browserify-fs');
+const arweave = Arweave.init({
+  host: 'localhost',
+  port: 1984,
+  protocol: 'http',
+  timeout: 20000,
+  logging: false,
 });
+//arweave function call
+//---------------------
+window.navigate = function navigate(id){
+  arweave.transactions.getData(id,{decode: true, string:true})
+    .then(
+      data => {
+      document.getElementsByTagName('html')[0].innerHTML = data;
+    });
 };
-//get variables (id's), from tag search
-let pages = ["aG9tZQ","Y29udGFjdA","YWJvdXQ"]
+//---------------------
+
+//---------------------
 window.tagQuery = async function tagQuery(page) {
-    const root = "domain"
-  //graphql query to send to arweave
+    //graphql query to send to arweave
         const data = JSON.stringify({
          query: \`{
          transactions(
@@ -90,8 +72,6 @@ window.tagQuery = async function tagQuery(page) {
         tags: {
             name: "cGFnZQ",
            values: "\${page}",
-           name: "cm9vdA",
-           values: "ZG9tYWlu"
         }
     ) {
         edges {
@@ -100,32 +80,31 @@ window.tagQuery = async function tagQuery(page) {
             }
         }
     }
-  }\`,
-        });
+  },
+        }\`});
   //attempting to fetch transaction is from local 
   //arweave instance using fetch and graphql query
-  //- but data id is empty
-        const response = await fetch(
-          'http://localhost:3000/graphql',
-          {
-            method: 'post',
-            body: data,
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': data.length,
-            },
-          }
-        );
+  const response = await fetch(
+    'http://localhost:3000/graphql',
+    {
+      method: 'post',
+      body: data,
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': data.length,
+      },
+    }
+  );
   //stringify response and return most recent txid
-        const json = await response.json();
-        console.log(JSON.stringify(json.data, null, 2));
-        //get transaction id's
-        const idArray = json.data.transactions.edges.map(x => x.node.id);
-        return idArray[0]
+  const json = await response.json();
+  //get transaction id's
+  const idArray = json.data.transactions.edges.map(x => x.node.id);
+  //return most recent transaction id
+  return idArray[0]
 };
+//---------------------
 
-let txidArray =  (async() => 
-console.log("running purple")
+window.getID = async function getID() {
 let pages = ["aG9tZQ","Y29udGFjdA","YWJvdXQ"]
      let obj = await Promise.all(
         pages.map(async(x, i) => 
@@ -133,306 +112,24 @@ let pages = ["aG9tZQ","Y29udGFjdA","YWJvdXQ"]
           )
       )
       return obj;
-  )();
+};
 
+window.replaceTags = async function replaceTags() {
+  txidArray = await window.getID();
+  let pages = ["aG9tZQ","Y29udGFjdA","YWJvdXQ"]
   //insert onclick attribute on all <a> tags
+  //###############TODO
   Array.from(document.querySelectorAll('a')).forEach(link => {
-      const index = pages.findIndex((element) => element == link.getAttribute('id'));
+      const index = pages.findIndex((element) => element == link.getAttribute('page'));
       const txid = txidArray[index];
       link.setAttribute('href', '#');
       link.setAttribute('class', 'successful_3');
       link.setAttribute("onclick", \`navigate(\${txid})\`);
     });
-</script>
-  </body>
-</html>
-    `;
-
-  const dataTransaction = await arweave.createTransaction({
-    data,
-  }, testWeave.rootJWK)
-
-  //testWeave.rootJWK returns test wallet with 10000000 and
-  //addres is MlV6DeOtRmakDOf6vgOBlif795tcWimgyPsYYNQ8q1Y
-
-  //add tags -- these are used when querying data
-  dataTransaction.addTag('root', 'domain');
-  dataTransaction.addTag('page', 'home');
-  //sign transaction
-  await arweave.transactions.sign(dataTransaction, testWeave.rootJWK);
-  const statusBeforePost = await arweave.transactions.getStatus(dataTransaction.id);
-  console.log(statusBeforePost);
-  await arweave.transactions.post(dataTransaction);
-  const statusAfterPost = await arweave.transactions.getStatus(dataTransaction.id)
-  console.log(statusAfterPost);
-  //instantly mine block !!
-  console.log("about to mine");
-  await testWeave.mine();
-  console.log("after mined");
-  const statusAfterMine = await arweave.transactions.getStatus(dataTransaction.id);
-  console.log(dataTransaction);
-  console.log(statusAfterMine);
-}
-
-
-window.deployAbout = async function deployAbout() {
-  const testWeave = await TestWeave.init(arweave);
-  let data = ` 
-<html>
-  <head>
-
-  </head>
-
-  <body>
-<h2>About</h2>
-<input type="text" id="search" placeholder="enter site name \'blog.ar\'" />
-<a id="home" href="#">Home </a>
-<a id="about" href="#">Home </a>
-<a id="contact" href="#">Home </a>
-
-<ul id="output"></ul>
-
-<footer>
-	<p>
-		Websites stored on
-    <a target="_blank" href="https://arweave.org">Arweave</a>
-    last forever. This website can get taken down but they'll still be there
-	</p>
-</footer>
-
-<!--replace anchor tags in browser -->
-<script>
-  //arweave function call
-window.navigate = function navigate(id){
-arweave.transactions.getData(id,{decode: true, string:true}).then(
-data => {
-document.getElementsByTagName('html')[0].innerHTML = data;
-});
-};
-//get variables (id's), from tag search
-let pages = ["aG9tZQ","Y29udGFjdA","YWJvdXQ"]
-window.tagQuery = async function tagQuery(page) {
-    const root = "domain"
-  //graphql query to send to arweave
-        const data = JSON.stringify({
-         query: \`{
-         transactions(
-         sort: HEIGHT_DESC,
-        tags: {
-            name: "cGFnZQ",
-           values: "\${page}",
-           name: "cm9vdA",
-           values: "ZG9tYWlu"
-        }
-    ) {
-        edges {
-            node {
-                id
-            }
-        }
-    }
-  }\`,
-        });
-  //attempting to fetch transaction is from local 
-  //arweave instance using fetch and graphql query
-  //- but data id is empty
-        const response = await fetch(
-          'http://localhost:3000/graphql',
-          {
-            method: 'post',
-            body: data,
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': data.length,
-            },
-          }
-        );
-  //stringify response and return most recent txid
-        const json = await response.json();
-        console.log(JSON.stringify(json.data, null, 2));
-        //get transaction id's
-        const idArray = json.data.transactions.edges.map(x => x.node.id);
-        return idArray[0]
+  //###############
 };
 
-let txidArray =  (async() => 
-let pages = ["aG9tZQ","Y29udGFjdA","YWJvdXQ"]
-     let obj = await Promise.all(
-        pages.map(async(x, i) => 
-            ({ "page": pages[i], "id": await window.tagQuery(x)})
-          )
-      )
-      return obj;
-  )();
-
-  //insert onclick attribute on all <a> tags
-  Array.From(document.querySelectorAll('a')).forEach(link => {
-      const index = pages.findIndex((element) => element == link.getAttribute('id'));
-      const txid = txidArray[index];
-      link.setAttribute('href', '#');
-      link.setAttribute('class', 'successful_2');
-      link.setAttribute("onclick", \`navigate(\${txid})\`);
-    });
-</script>
-  </body>
-</html>
-    `;
-
-  const dataTransaction = await arweave.createTransaction({
-    data,
-  }, testWeave.rootJWK)
-
-  //testWeave.rootJWK returns test wallet with 10000000 and
-  //addres is MlV6DeOtRmakDOf6vgOBlif795tcWimgyPsYYNQ8q1Y
-
-  //add tags -- these are used when querying data
-  dataTransaction.addTag('root', 'domain');
-  dataTransaction.addTag('page', 'about');
-  //sign transaction
-  await arweave.transactions.sign(dataTransaction, testWeave.rootJWK);
-  const statusBeforePost = await arweave.transactions.getStatus(dataTransaction.id);
-  console.log(statusBeforePost);
-  await arweave.transactions.post(dataTransaction);
-  const statusAfterPost = await arweave.transactions.getStatus(dataTransaction.id)
-  console.log(statusAfterPost);
-  //instantly mine block !!
-  console.log("about to mine");
-  await testWeave.mine();
-  console.log("after mined");
-  const statusAfterMine = await arweave.transactions.getStatus(dataTransaction.id);
-  console.log(dataTransaction);
-  console.log(statusAfterMine);
-}
-
-window.deployContact = async function deployContact() {
-  const testWeave = await TestWeave.init(arweave);
-  let data = ` 
-<html>
-  <head>
-
-  </head>
-
-  <body>
-<h2>Contact</h2>
-<input type="text" id="search" placeholder="enter site name \'blog.ar\'" />
-<a id="home" href="#">Home </a>
-<a id="about" href="#">Home </a>
-<a id="contact" href="#">Home </a>
-
-<ul id="output"></ul>
-
-<footer>
-	<p>
-		Websites stored on
-    <a target="_blank" href="https://arweave.org">Arweave</a>
-    last forever. This website can get taken down but they'll still be there
-	</p>
-</footer>
-
-<!--replace anchor tags in browser -->
-<script>
-  //arweave function call
-window.navigate = function navigate(id){
-arweave.transactions.getData(id,{decode: true, string:true}).then(
-data => {
-document.getElementsByTagName('html')[0].innerHTML = data;
-});
-};
-//get variables (id's), from tag search
-let pages = ["aG9tZQ","Y29udGFjdA","YWJvdXQ"]
-window.tagQuery = async function tagQuery(page) {
-    const root = "domain"
-  //graphql query to send to arweave
-        const data = JSON.stringify({
-         query: \`{
-         transactions(
-         sort: HEIGHT_DESC,
-        tags: {
-            name: "cGFnZQ",
-           values: "\${page}",
-           name: "cm9vdA",
-           values: "ZG9tYWlu"
-        }
-    ) {
-        edges {
-            node {
-                id
-            }
-        }
-    }
-  }\`,
-        });
-  //attempting to fetch transaction is from local 
-  //arweave instance using fetch and graphql query
-  //- but data id is empty
-        const response = await fetch(
-          'http://localhost:3000/graphql',
-          {
-            method: 'post',
-            body: data,
-            headers: {
-              'Content-Type': 'application/json',
-              'Content-Length': data.length,
-            },
-          }
-        );
-  //stringify response and return most recent txid
-        const json = await response.json();
-        console.log(JSON.stringify(json.data, null, 2));
-        //get transaction id's
-        const idArray = json.data.transactions.edges.map(x => x.node.id);
-        return idArray[0]
-};
-
-let txidArray =  (async() => 
-let pages = ["aG9tZQ","Y29udGFjdA","YWJvdXQ"]
-     let obj = await Promise.all(
-        pages.map(async(x, i) => 
-            ({ "page": pages[i], "id": await window.tagQuery(x)})
-          )
-      )
-      return obj;
-  )();
-
-  //insert onclick attribute on all <a> tags
-  Array.From(document.querySelectorAll('a')).forEach(link => {
-      const index = pages.findIndex((element) => element == link.getAttribute('id'));
-      const txid = txidArray[index];
-      link.setAttribute('href', '#');
-      link.setAttribute('class', 'successful_1');
-      link.setAttribute("onclick", \`navigate(\${txid})\`);
-    });
-</script>
-  </body>
-</html>
-    `;
-
-  const dataTransaction = await arweave.createTransaction({
-    data,
-  }, testWeave.rootJWK)
-
-  //testWeave.rootJWK returns test wallet with 10000000 and
-  //addres is MlV6DeOtRmakDOf6vgOBlif795tcWimgyPsYYNQ8q1Y
-
-  //add tags -- these are used when querying data
-  dataTransaction.addTag('root', 'domain');
-  dataTransaction.addTag('page', 'contact');
-  //sign transaction
-  await arweave.transactions.sign(dataTransaction, testWeave.rootJWK);
-  const statusBeforePost = await arweave.transactions.getStatus(dataTransaction.id);
-  console.log(statusBeforePost);
-  await arweave.transactions.post(dataTransaction);
-  const statusAfterPost = await arweave.transactions.getStatus(dataTransaction.id)
-  console.log(statusAfterPost);
-  //instantly mine block !!
-  console.log("about to mine");
-  await testWeave.mine();
-  console.log("after mined");
-  const statusAfterMine = await arweave.transactions.getStatus(dataTransaction.id);
-  console.log(dataTransaction);
-  console.log(statusAfterMine);
-}
-
+window.replaceTags();
 
 },{"arweave":11,"browserify-fs":55,"testweave-sdk":154}],2:[function(require,module,exports){
 (function (process){(function (){
@@ -745,7 +442,7 @@ AbstractLevelDOWN.prototype.approximateSize = function (start, end, callback) {
       || end == null
       || typeof start == 'function'
       || typeof end == 'function') {
-    throw new Error('approximateSize() requires valid `start`, `end` and `callback` arguments')
+    throw new Error('approximateSize() requires valid \`start\`, \`end\` and \`callback\` arguments')
   }
 
   if (typeof callback != 'function')
@@ -777,7 +474,7 @@ AbstractLevelDOWN.prototype._setupIteratorOptions = function (options) {
 
   options.reverse = !!options.reverse
 
-  // fix `start` so it takes into account gt, gte, lt, lte as appropriate
+  // fix \`start\` so it takes into account gt, gte, lt, lte as appropriate
   if (options.reverse && options.lt)
     options.start = options.lt
   if (options.reverse && options.lte)
@@ -817,7 +514,7 @@ AbstractLevelDOWN.prototype._isBuffer = function (obj) {
 AbstractLevelDOWN.prototype._checkKeyValue = function (obj, type) {
 
   if (obj === null || obj === undefined)
-    return new Error(type + ' cannot be `null` or `undefined`')
+    return new Error(type + ' cannot be \`null\` or \`undefined\`')
 
   if (this._isBuffer(obj)) {
     if (obj.length === 0)
@@ -921,7 +618,7 @@ class Blocks {
      * Gets a block by its "indep_hash"
      */
     async get(indepHash) {
-        const response = await this.api.get(`${Blocks.ENDPOINT}${indepHash}`);
+        const response = await this.api.get(\`\${Blocks.ENDPOINT}\${indepHash}\`);
         if (response.status === 200) {
             return response.data;
         }
@@ -930,7 +627,7 @@ class Blocks {
                 throw new error_1.default("BLOCK_NOT_FOUND" /* BLOCK_NOT_FOUND */);
             }
             else {
-                throw new Error(`Error while loading block data: ${response}`);
+                throw new Error(\`Error while loading block data: \${response}\`);
             }
         }
     }
@@ -955,18 +652,18 @@ class Chunks {
         this.api = api;
     }
     async getTransactionOffset(id) {
-        const resp = await this.api.get(`tx/${id}/offset`);
+        const resp = await this.api.get(\`tx/\${id}/offset\`);
         if (resp.status === 200) {
             return resp.data;
         }
-        throw new Error(`Unable to get transaction offset: ${(0, error_1.getError)(resp)}`);
+        throw new Error(\`Unable to get transaction offset: \${(0, error_1.getError)(resp)}\`);
     }
     async getChunk(offset) {
-        const resp = await this.api.get(`chunk/${offset}`);
+        const resp = await this.api.get(\`chunk/\${offset}\`);
         if (resp.status === 200) {
             return resp.data;
         }
-        throw new Error(`Unable to get chunk: ${(0, error_1.getError)(resp)}`);
+        throw new Error(\`Unable to get chunk: \${(0, error_1.getError)(resp)}\`);
     }
     async getChunkData(offset) {
         const chunk = await this.getChunk(offset);
@@ -985,22 +682,22 @@ class Chunks {
         let byte = 0;
         while (byte < size) {
             if (this.api.config.logging) {
-                console.log(`[chunk] ${byte}/${size}`);
+                console.log(\`[chunk] \${byte}/\${size}\`);
             }
             let chunkData;
             try {
                 chunkData = await this.getChunkData(startOffset + byte);
             }
             catch (error) {
-                console.error(`[chunk] Failed to fetch chunk at offset ${startOffset + byte}`);
-                console.error(`[chunk] This could indicate that the chunk wasn't uploaded or hasn't yet seeded properly to a particular gatway/node`);
+                console.error(\`[chunk] Failed to fetch chunk at offset \${startOffset + byte}\`);
+                console.error(\`[chunk] This could indicate that the chunk wasn't uploaded or hasn't yet seeded properly to a particular gatway/node\`);
             }
             if (chunkData) {
                 data.set(chunkData, byte);
                 byte += chunkData.length;
             }
             else {
-                throw new Error(`Coudn't complete data download at ${byte}/${size}`);
+                throw new Error(\`Coudn't complete data download at \${byte}/\${size}\`);
             }
         }
         return data;
@@ -1050,7 +747,7 @@ class Arweave {
         const transaction = {};
         Object.assign(transaction, attributes);
         if (!attributes.data && !(attributes.target && attributes.quantity)) {
-            throw new Error(`A new Arweave transaction must have a 'data' value, or 'target' and 'quantity' values.`);
+            throw new Error(\`A new Arweave transaction must have a 'data' value, or 'target' and 'quantity' values.\`);
         }
         if (attributes.owner == undefined) {
             if (jwk && jwk !== "use_wallet") {
@@ -1087,17 +784,17 @@ class Arweave {
         const transaction = {};
         Object.assign(transaction, attributes);
         if (!attributes.data) {
-            throw new Error(`Silo transactions must have a 'data' value`);
+            throw new Error(\`Silo transactions must have a 'data' value\`);
         }
         if (!siloUri) {
-            throw new Error(`No Silo URI specified.`);
+            throw new Error(\`No Silo URI specified.\`);
         }
         if (attributes.target || attributes.quantity) {
-            throw new Error(`Silo transactions can only be used for storing data, sending AR to other wallets isn't supported.`);
+            throw new Error(\`Silo transactions can only be used for storing data, sending AR to other wallets isn't supported.\`);
         }
         if (attributes.owner == undefined) {
             if (!jwk || !jwk.n) {
-                throw new Error(`A new Arweave transaction must either have an 'owner' attribute, or you must provide the jwk parameter.`);
+                throw new Error(\`A new Arweave transaction must either have an 'owner' attribute, or you must provide the jwk parameter.\`);
             }
             transaction.owner = jwk.n;
         }
@@ -1117,7 +814,7 @@ class Arweave {
         }
         const siloTransaction = new transaction_1.default(transaction);
         siloTransaction.addTag("Silo-Name", siloResource.getAccessKey());
-        siloTransaction.addTag("Silo-Version", `0.1.0`);
+        siloTransaction.addTag("Silo-Version", \`0.1.0\`);
         return siloTransaction;
     }
     arql(query) {
@@ -1247,17 +944,17 @@ class Api {
      */
     request() {
         let instance = axios_1.default.create({
-            baseURL: `${this.config.protocol}://${this.config.host}:${this.config.port}`,
+            baseURL: \`\${this.config.protocol}://\${this.config.host}:\${this.config.port}\`,
             timeout: this.config.timeout,
             maxContentLength: 1024 * 1024 * 512,
         });
         if (this.config.logging) {
             instance.interceptors.request.use((request) => {
-                this.config.logger(`Requesting: ${request.baseURL}/${request.url}`);
+                this.config.logger(\`Requesting: \${request.baseURL}/\${request.url}\`);
                 return request;
             });
             instance.interceptors.response.use((response) => {
-                this.config.logger(`Response:   ${response.config.url} - ${response.status}`);
+                this.config.logger(\`Response:   \${response.config.url} - \${response.status}\`);
                 return response;
             });
         }
@@ -1527,7 +1224,7 @@ async function chunkData(data) {
         let nextChunkSize = rest.byteLength - exports.MAX_CHUNK_SIZE;
         if (nextChunkSize > 0 && nextChunkSize < exports.MIN_CHUNK_SIZE) {
             chunkSize = Math.ceil(rest.byteLength / 2);
-            // console.log(`Last chunk will be: ${nextChunkSize} which is below ${MIN_CHUNK_SIZE}, adjusting current to ${chunkSize} with ${rest.byteLength} left.`)
+            // console.log(\`Last chunk will be: \${nextChunkSize} which is below \${MIN_CHUNK_SIZE}, adjusting current to \${chunkSize} with \${rest.byteLength} left.\`)
         }
         const chunk = rest.slice(0, chunkSize);
         const dataHash = await common_1.default.crypto.hash(chunk);
@@ -1656,7 +1353,7 @@ function resolveBranchProofs(node, proof = new Uint8Array(), depth = 0) {
             resolveBranchProofs(node.rightChild, partialProof, depth + 1),
         ];
     }
-    throw new Error(`Unexpected node type`);
+    throw new Error(\`Unexpected node type\`);
 }
 function arrayFlatten(input) {
     const flat = [];
@@ -1783,7 +1480,7 @@ async function debug(proof, output = "") {
         await hash(right),
         await hash(offsetBuffer),
     ]);
-    const updatedOutput = `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`;
+    const updatedOutput = \`\${output}\n\${JSON.stringify(Buffer.from(left))},\${JSON.stringify(Buffer.from(right))},\${offset} => \${JSON.stringify(pathHash)}\`;
     return debug(remainder, updatedOutput);
 }
 exports.debug = debug;
@@ -1827,10 +1524,10 @@ class TransactionUploader {
         this.lastResponseStatus = 0;
         this.lastResponseError = "";
         if (!transaction.id) {
-            throw new Error(`Transaction is not signed`);
+            throw new Error(\`Transaction is not signed\`);
         }
         if (!transaction.chunks) {
-            throw new Error(`Transaction chunks not prepared`);
+            throw new Error(\`Transaction chunks not prepared\`);
         }
         // Make a copy of transaction, zeroing the data so we can serialize.
         this.data = transaction.data;
@@ -1857,7 +1554,7 @@ class TransactionUploader {
      */
     async uploadChunk(chunkIndex_) {
         if (this.isComplete) {
-            throw new Error(`Upload is already complete`);
+            throw new Error(\`Upload is already complete\`);
         }
         if (this.lastResponseError !== "") {
             this.totalErrors++;
@@ -1868,7 +1565,7 @@ class TransactionUploader {
         // We have been trying for about an hour receiving an
         // error every time, so eventually bail.
         if (this.totalErrors === 100) {
-            throw new Error(`Unable to complete upload: ${this.lastResponseStatus}: ${this.lastResponseError}`);
+            throw new Error(\`Unable to complete upload: \${this.lastResponseStatus}: \${this.lastResponseError}\`);
         }
         let delay = this.lastResponseError === ""
             ? 0
@@ -1889,11 +1586,11 @@ class TransactionUploader {
         const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
         const chunkOk = await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path));
         if (!chunkOk) {
-            throw new Error(`Unable to validate chunk ${this.chunkIndex}`);
+            throw new Error(\`Unable to validate chunk \${this.chunkIndex}\`);
         }
         // Catch network errors and turn them into objects with status -1 and an error message.
         const resp = await this.api
-            .post(`chunk`, this.transaction.getChunk(this.chunkIndex, this.data))
+            .post(\`chunk\`, this.transaction.getChunk(this.chunkIndex, this.data))
             .catch((e) => {
             console.error(e.message);
             return { status: -1, data: { error: e.message } };
@@ -1906,7 +1603,7 @@ class TransactionUploader {
         else {
             this.lastResponseError = (0, error_1.getError)(resp);
             if (FATAL_CHUNK_UPLOAD_ERRORS.includes(this.lastResponseError)) {
-                throw new Error(`Fatal error uploading chunk ${this.chunkIndex}: ${this.lastResponseError}`);
+                throw new Error(\`Fatal error uploading chunk \${this.chunkIndex}: \${this.lastResponseError}\`);
             }
         }
     }
@@ -1921,7 +1618,7 @@ class TransactionUploader {
         if (!serialized ||
             typeof serialized.chunkIndex !== "number" ||
             typeof serialized.transaction !== "object") {
-            throw new Error(`Serialized object does not match expected format.`);
+            throw new Error(\`Serialized object does not match expected format.\`);
         }
         // Everything looks ok, reconstruct the TransactionUpload,
         // prepare the chunks again and verify the data_root matches
@@ -1938,7 +1635,7 @@ class TransactionUploader {
         upload.txPosted = serialized.txPosted;
         upload.data = data;
         if (upload.transaction.data_root !== serialized.transaction.data_root) {
-            throw new Error(`Data mismatch: Uploader doesn't match provided data.`);
+            throw new Error(\`Data mismatch: Uploader doesn't match provided data.\`);
         }
         return upload;
     }
@@ -1950,9 +1647,9 @@ class TransactionUploader {
      * @param data
      */
     static async fromTransactionId(api, id) {
-        const resp = await api.get(`tx/${id}`);
+        const resp = await api.get(\`tx/\${id}\`);
         if (resp.status !== 200) {
-            throw new Error(`Tx ${id} not found: ${resp.status}`);
+            throw new Error(\`Tx \${id} not found: \${resp.status}\`);
         }
         const transaction = resp.data;
         transaction.data = new Uint8Array(0);
@@ -1982,7 +1679,7 @@ class TransactionUploader {
         if (uploadInBody) {
             // Post the transaction with data.
             this.transaction.data = this.data;
-            const resp = await this.api.post(`tx`, this.transaction).catch((e) => {
+            const resp = await this.api.post(\`tx\`, this.transaction).catch((e) => {
                 console.error(e);
                 return { status: -1, data: { error: e.message } };
             });
@@ -1996,15 +1693,15 @@ class TransactionUploader {
                 return;
             }
             this.lastResponseError = (0, error_1.getError)(resp);
-            throw new Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
+            throw new Error(\`Unable to upload transaction: \${resp.status}, \${this.lastResponseError}\`);
         }
         // Post the transaction with no data.
-        const resp = await this.api.post(`tx`, this.transaction);
+        const resp = await this.api.post(\`tx\`, this.transaction);
         this.lastRequestTimeEnd = Date.now();
         this.lastResponseStatus = resp.status;
         if (!(resp.status >= 200 && resp.status < 300)) {
             this.lastResponseError = (0, error_1.getError)(resp);
-            throw new Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
+            throw new Error(\`Unable to upload transaction: \${resp.status}, \${this.lastResponseError}\`);
         }
         this.txPosted = true;
     }
@@ -2021,7 +1718,7 @@ const merkle_1 = require("./merkle");
 class BaseObject {
     get(field, options) {
         if (!Object.getOwnPropertyNames(this).includes(field)) {
-            throw new Error(`Field "${field}" is not a property of the Arweave Transaction class.`);
+            throw new Error(\`Field "\${field}" is not a property of the Arweave Transaction class.\`);
         }
         // Handle fields that are Uint8Arrays.
         // To maintain compat we encode them to b64url
@@ -2113,7 +1810,7 @@ class Transaction extends BaseObject {
         this.signature = signature;
     }
     async prepareChunks(data) {
-        // Note: we *do not* use `this.data`, the caller may be
+        // Note: we *do not* use \`this.data\`, the caller may be
         // operating on a transaction with an zero length data field.
         // This function computes the chunks for the data passed in and
         // assigns the result to this transaction. It should not read the
@@ -2132,11 +1829,11 @@ class Transaction extends BaseObject {
         }
     }
     // Returns a chunk in a format suitable for posting to /chunk.
-    // Similar to `prepareChunks()` this does not operate `this.data`,
+    // Similar to \`prepareChunks()\` this does not operate \`this.data\`,
     // instead using the data passed in.
     getChunk(idx, data) {
         if (!this.chunks) {
-            throw new Error(`Chunks have not been prepared`);
+            throw new Error(\`Chunks have not been prepared\`);
         }
         const proof = this.chunks.proofs[idx];
         const chunk = this.chunks.chunks[idx];
@@ -2187,7 +1884,7 @@ class Transaction extends BaseObject {
                     this.get("data_root", { decode: true, string: false }),
                 ]);
             default:
-                throw new Error(`Unexpected transaction format: ${this.format}`);
+                throw new Error(\`Unexpected transaction format: \${this.format}\`);
         }
     }
 }
@@ -2283,12 +1980,12 @@ class Network {
         this.api = api;
     }
     getInfo() {
-        return this.api.get(`info`).then((response) => {
+        return this.api.get(\`info\`).then((response) => {
             return response.data;
         });
     }
     getPeers() {
-        return this.api.get(`peers`).then((response) => {
+        return this.api.get(\`peers\`).then((response) => {
             return response.data;
         });
     }
@@ -2308,23 +2005,23 @@ class Silo {
     }
     async get(siloURI) {
         if (!siloURI) {
-            throw new Error(`No Silo URI specified`);
+            throw new Error(\`No Silo URI specified\`);
         }
         const resource = await this.parseUri(siloURI);
         const ids = await this.transactions.search("Silo-Name", resource.getAccessKey());
         if (ids.length == 0) {
-            throw new Error(`No data could be found for the Silo URI: ${siloURI}`);
+            throw new Error(\`No data could be found for the Silo URI: \${siloURI}\`);
         }
         const transaction = await this.transactions.get(ids[0]);
         if (!transaction) {
-            throw new Error(`No data could be found for the Silo URI: ${siloURI}`);
+            throw new Error(\`No data could be found for the Silo URI: \${siloURI}\`);
         }
         const encrypted = transaction.get("data", { decode: true, string: false });
         return this.crypto.decrypt(encrypted, resource.getEncryptionKey());
     }
     async readTransactionData(transaction, siloURI) {
         if (!siloURI) {
-            throw new Error(`No Silo URI specified`);
+            throw new Error(\`No Silo URI specified\`);
         }
         const resource = await this.parseUri(siloURI);
         const encrypted = transaction.get("data", { decode: true, string: false });
@@ -2333,7 +2030,7 @@ class Silo {
     async parseUri(siloURI) {
         const parsed = siloURI.match(/^([a-z0-9-_]+)\.([0-9]+)/i);
         if (!parsed) {
-            throw new Error(`Invalid Silo name, must be a name in the format of [a-z0-9]+.[0-9]+, e.g. 'bubble.7'`);
+            throw new Error(\`Invalid Silo name, must be a name in the format of [a-z0-9]+.[0-9]+, e.g. 'bubble.7'\`);
         }
         const siloName = parsed[1];
         const hashIterations = Math.pow(2, parseInt(parsed[2]));
@@ -2404,15 +2101,15 @@ class Transactions {
          * config =  {transformReponse: []} where we do not require a transform
          */
         return this.api
-            .get(`tx_anchor`, { transformResponse: [] })
+            .get(\`tx_anchor\`, { transformResponse: [] })
             .then((response) => {
             return response.data;
         });
     }
     getPrice(byteSize, targetAddress) {
         let endpoint = targetAddress
-            ? `price/${byteSize}/${targetAddress}`
-            : `price/${byteSize}`;
+            ? \`price/\${byteSize}/\${targetAddress}\`
+            : \`price/\${byteSize}\`;
         return this.api
             .get(endpoint, {
             transformResponse: [
@@ -2433,7 +2130,7 @@ class Transactions {
         });
     }
     async get(id) {
-        const response = await this.api.get(`tx/${id}`);
+        const response = await this.api.get(\`tx/\${id}\`);
         if (response.status == 200) {
             const data_size = parseInt(response.data.data_size);
             if (response.data.format >= 2 &&
@@ -2457,7 +2154,7 @@ class Transactions {
     }
     async search(tagName, tagValue) {
         return this.api
-            .post(`arql`, {
+            .post(\`arql\`, {
             op: "equals",
             expr1: tagName,
             expr2: tagValue,
@@ -2470,7 +2167,7 @@ class Transactions {
         });
     }
     getStatus(id) {
-        return this.api.get(`tx/${id}/status`).then((response) => {
+        return this.api.get(\`tx/\${id}/status\`).then((response) => {
             if (response.status == 200) {
                 return {
                     status: 200,
@@ -2500,7 +2197,7 @@ class Transactions {
     }
     async sign(transaction, jwk, options) {
         if (!jwk && (typeof window === "undefined" || !window.arweaveWallet)) {
-            throw new Error(`A new Arweave transaction must provide the jwk parameter.`);
+            throw new Error(\`A new Arweave transaction must provide the jwk parameter.\`);
         }
         else if (!jwk || jwk === "use_wallet") {
             try {
@@ -2544,7 +2241,7 @@ class Transactions {
         });
         const expectedId = ArweaveUtils.bufferTob64Url(await this.crypto.hash(rawSignature));
         if (transaction.id !== expectedId) {
-            throw new Error(`Invalid transaction signature or ID! The transaction ID doesn't match the expected SHA-256 hash of the signature.`);
+            throw new Error(\`Invalid transaction signature or ID! The transaction ID doesn't match the expected SHA-256 hash of the signature.\`);
         }
         /**
          * Now verify the signature is valid and signed by the owner wallet (owner field = originating wallet public key).
@@ -2563,7 +2260,7 @@ class Transactions {
             transaction = new transaction_1.default(transaction);
         }
         if (!(transaction instanceof transaction_1.default)) {
-            throw new Error(`Must be Transaction object`);
+            throw new Error(\`Must be Transaction object\`);
         }
         if (!transaction.chunks) {
             await transaction.prepareChunks(transaction.data);
@@ -2599,13 +2296,13 @@ class Transactions {
      *
      * Usage example:
      *
-     * ```
+     * \`\`\`
      * const uploader = arweave.transactions.getUploader(transaction);
      * while (!uploader.isComplete) {
      *   await uploader.uploadChunk();
-     *   console.log(`${uploader.pctComplete}%`);
+     *   console.log(\`\${uploader.pctComplete}%\`);
      * }
-     * ```
+     * \`\`\`
      *
      * @param upload a Transaction object, a previously save progress object, or a transaction id.
      * @param data the data of the transaction. Required when resuming an upload.
@@ -2635,7 +2332,7 @@ class Transactions {
                 upload = await transaction_uploader_1.TransactionUploader.fromTransactionId(this.api, upload);
             }
             if (!data || !(data instanceof Uint8Array)) {
-                throw new Error(`Must provide data when resuming upload`);
+                throw new Error(\`Must provide data when resuming upload\`);
             }
             // upload should be a serialized upload.
             uploader = await transaction_uploader_1.TransactionUploader.fromSerialized(this.api, upload, data);
@@ -2647,11 +2344,11 @@ class Transactions {
      *
      * Usage example:
      *
-     * ```
+     * \`\`\`
      * for await (const uploader of arweave.transactions.upload(tx)) {
-     *  console.log(`${uploader.pctComplete}%`);
+     *  console.log(\`\${uploader.pctComplete}%\`);
      * }
-     * ```
+     * \`\`\`
      *
      * @param upload a Transaction object, a previously save uploader, or a transaction id.
      * @param data the data of the transaction. Required when resuming an upload.
@@ -2688,7 +2385,7 @@ class Wallets {
      */
     getBalance(address) {
         return this.api
-            .get(`wallet/${address}/balance`, {
+            .get(\`wallet/\${address}/balance\`, {
             transformResponse: [
                 /**
                  * We need to specify a response transformer to override
@@ -2714,7 +2411,7 @@ class Wallets {
      * @returns {Promise<string>} - Promise which resolves with a transaction ID.
      */
     getLastTransactionID(address) {
-        return this.api.get(`wallet/${address}/last_tx`).then((response) => {
+        return this.api.get(\`wallet/\${address}/last_tx\`).then((response) => {
             return response.data;
         });
     }
@@ -3030,7 +2727,7 @@ module.exports.default = axios;
 'use strict';
 
 /**
- * A `Cancel` is an object that is thrown when an operation is canceled.
+ * A \`Cancel\` is an object that is thrown when an operation is canceled.
  *
  * @class
  * @param {string=} message The message.
@@ -3053,7 +2750,7 @@ module.exports = Cancel;
 var Cancel = require('./Cancel');
 
 /**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ * A \`CancelToken\` is an object that can be used to request cancellation of an operation.
  *
  * @class
  * @param {Function} executor The executor function.
@@ -3112,7 +2809,7 @@ function CancelToken(executor) {
 }
 
 /**
- * Throws a `Cancel` if cancellation has been requested.
+ * Throws a \`Cancel\` if cancellation has been requested.
  */
 CancelToken.prototype.throwIfRequested = function throwIfRequested() {
   if (this.reason) {
@@ -3152,8 +2849,8 @@ CancelToken.prototype.unsubscribe = function unsubscribe(listener) {
 };
 
 /**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
+ * Returns an object that contains a new \`CancelToken\` and a function that, when called,
+ * cancels the \`CancelToken\`.
  */
 CancelToken.source = function source() {
   var cancel;
@@ -3337,8 +3034,8 @@ function InterceptorManager() {
 /**
  * Add a new interceptor to the stack
  *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
+ * @param {Function} fulfilled The function to handle \`then\` for a \`Promise\`
+ * @param {Function} rejected The function to handle \`reject\` for a \`Promise\`
  *
  * @return {Number} An ID used to remove interceptor later
  */
@@ -3355,7 +3052,7 @@ InterceptorManager.prototype.use = function use(fulfilled, rejected, options) {
 /**
  * Remove an interceptor from the stack
  *
- * @param {Number} id The ID that was returned by `use`
+ * @param {Number} id The ID that was returned by \`use\`
  */
 InterceptorManager.prototype.eject = function eject(id) {
   if (this.handlers[id]) {
@@ -3367,7 +3064,7 @@ InterceptorManager.prototype.eject = function eject(id) {
  * Iterate over all the registered interceptors
  *
  * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
+ * interceptors that may have become \`null\` calling \`eject\`.
  *
  * @param {Function} fn The function to call for each interceptor
  */
@@ -3433,7 +3130,7 @@ var defaults = require('../defaults');
 var Cancel = require('../cancel/Cancel');
 
 /**
- * Throws a `Cancel` if cancellation has been requested.
+ * Throws a \`Cancel\` if cancellation has been requested.
  */
 function throwIfCancellationRequested(config) {
   if (config.cancelToken) {
@@ -3872,7 +3569,7 @@ var utils = require('./../utils');
 function encode(val) {
   return encodeURIComponent(val).
     replace(/%3A/gi, ':').
-    replace(/%24/g, '$').
+    replace(/%24/g, '\$').
     replace(/%2C/gi, ',').
     replace(/%20/g, '+').
     replace(/%5B/gi, '[').
@@ -3948,7 +3645,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
  */
 module.exports = function combineURLs(baseURL, relativeURL) {
   return relativeURL
-    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    ? baseURL.replace(/\/+\$/, '') + '/' + relativeURL.replace(/^\/+/, '')
     : baseURL;
 };
 
@@ -4071,7 +3768,7 @@ module.exports = (
         // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
         return {
           href: urlParsingNode.href,
-          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+          protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:\$/, '') : '',
           host: urlParsingNode.host,
           search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
           hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
@@ -4137,12 +3834,12 @@ var ignoreDuplicateOf = [
 /**
  * Parse headers into an object
  *
- * ```
+ * \`\`\`
  * Date: Wed, 27 Aug 2014 08:58:49 GMT
  * Content-Type: application/json
  * Connection: keep-alive
  * Transfer-Encoding: chunked
- * ```
+ * \`\`\`
  *
  * @param {String} headers Headers needing to be parsed
  * @returns {Object} Headers parsed into an object
@@ -4181,19 +3878,19 @@ module.exports = function parseHeaders(headers) {
 /**
  * Syntactic sugar for invoking a function and expanding an array for arguments.
  *
- * Common use case would be to use `Function.prototype.apply`.
+ * Common use case would be to use \`Function.prototype.apply\`.
  *
- *  ```js
+ *  \`\`\`js
  *  function f(x, y, z) {}
  *  var args = [1, 2, 3];
  *  f.apply(null, args);
- *  ```
+ *  \`\`\`
  *
- * With `spread` this example can be re-written.
+ * With \`spread\` this example can be re-written.
  *
- *  ```js
+ *  \`\`\`js
  *  spread(function(x, y, z) {})([1, 2, 3]);
- *  ```
+ *  \`\`\`
  *
  * @param {Function} callback
  * @returns {Function}
@@ -4476,7 +4173,7 @@ function isURLSearchParams(val) {
  * @returns {String} The String freed of excess whitespace
  */
 function trim(str) {
-  return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g, '');
+  return str.trim ? str.trim() : str.replace(/^\s+|\s+\$/g, '');
 }
 
 /**
@@ -4509,7 +4206,7 @@ function isStandardBrowserEnv() {
 /**
  * Iterate over an Array or an Object invoking a function for each item.
  *
- * If `obj` is an Array callback will be called passing
+ * If \`obj\` is an Array callback will be called passing
  * the value, index, and complete array for each item.
  *
  * If 'obj' is an Object callback will be called passing
@@ -4554,10 +4251,10 @@ function forEach(obj, fn) {
  *
  * Example:
  *
- * ```js
+ * \`\`\`js
  * var result = merge({foo: 123}, {foo: 456});
  * console.log(result.foo); // outputs 456
- * ```
+ * \`\`\`
  *
  * @param {Object} obj1 Object to merge
  * @returns {Object} Result of all merge properties
@@ -4844,7 +4541,7 @@ function fromByteArray (uint8) {
 
 
   var BigNumber,
-    isNumeric = /^-?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i,
+    isNumeric = /^-?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?\$/i,
     mathceil = Math.ceil,
     mathfloor = Math.floor,
 
@@ -4955,7 +4652,7 @@ function fromByteArray (uint8) {
 
       // The alphabet used for base conversion. It must be at least 2 characters long, with no '+',
       // '-', '.', whitespace, or repeated character.
-      // '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$_'
+      // '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\$_'
       ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyz',
       alphabetHasNormalDecimalDigits = true;
 
@@ -4977,7 +4674,7 @@ function fromByteArray (uint8) {
       var alphabet, c, caseChanged, e, i, isNum, len, str,
         x = this;
 
-      // Enable constructor call without `new`.
+      // Enable constructor call without \`new\`.
       if (!(x instanceof BigNumber)) return new BigNumber(v, b);
 
       if (b == null) {
@@ -4999,7 +4696,7 @@ function fromByteArray (uint8) {
 
         if ((isNum = typeof v == 'number') && v * 0 == 0) {
 
-          // Use `1 / n` to handle minus zero also.
+          // Use \`1 / n\` to handle minus zero also.
           x.s = 1 / v < 0 ? (v = -v, -1) : 1;
 
           // Fast path for integers, where n < 2147483648 (2**31).
@@ -5338,7 +5035,7 @@ function fromByteArray (uint8) {
 
             // Disallow if less than two characters,
             // or if it contains '+', '-', '.', whitespace, or a repeated character.
-            if (typeof v == 'string' && !/^.?$|[+\-.\s]|(.).*\1/.test(v)) {
+            if (typeof v == 'string' && !/^.?\$|[+\-.\s]|(.).*\1/.test(v)) {
               alphabetHasNormalDecimalDigits = v.slice(0, 10) == '0123456789';
               ALPHABET = v;
             } else {
@@ -6142,11 +5839,11 @@ function fromByteArray (uint8) {
 
     // Handle values that fail the validity test in BigNumber.
     parseNumeric = (function () {
-      var basePrefix = /^(-?)0([xbo])(?=\w[\w.]*$)/i,
-        dotAfter = /^([^.]+)\.$/,
-        dotBefore = /^\.([^.]+)$/,
-        isInfinityOrNaN = /^-?(Infinity|NaN)$/,
-        whitespaceOrPlus = /^\s*\+(?=[\w.])|^\s+|\s+$/g;
+      var basePrefix = /^(-?)0([xbo])(?=\w[\w.]*\$)/i,
+        dotAfter = /^([^.]+)\.\$/,
+        dotBefore = /^\.([^.]+)\$/,
+        isInfinityOrNaN = /^-?(Infinity|NaN)\$/,
+        whitespaceOrPlus = /^\s*\+(?=[\w.])|^\s+|\s+\$/g;
 
       return function (x, str, isNum, b) {
         var base,
@@ -6158,7 +5855,7 @@ function fromByteArray (uint8) {
         } else {
           if (!isNum) {
 
-            // basePrefix = /^(-?)0([xbo])(?=\w[\w.]*$)/i
+            // basePrefix = /^(-?)0([xbo])(?=\w[\w.]*\$)/i
             s = s.replace(basePrefix, function (m, p1, p2) {
               base = (p2 = p2.toLowerCase()) == 'x' ? 16 : p2 == 'b' ? 2 : 8;
               return !b || b == base ? p1 : m;
@@ -6168,7 +5865,7 @@ function fromByteArray (uint8) {
               base = b;
 
               // E.g. '1.' to '1', '.1' to '0.1'
-              s = s.replace(dotAfter, '$1').replace(dotBefore, '0.$1');
+              s = s.replace(dotAfter, '\$1').replace(dotBefore, '0.\$1');
             }
 
             if (str != s) return new BigNumber(s, base);
@@ -7375,7 +7072,7 @@ function fromByteArray (uint8) {
         str = fractionPart
          ? intPart + (format.decimalSeparator || '') + ((g2 = +format.fractionGroupSize)
           ? fractionPart.replace(new RegExp('\\d{' + g2 + '}\\B', 'g'),
-           '$&' + (format.fractionGroupSeparator || ''))
+           '\$&' + (format.fractionGroupSeparator || ''))
           : fractionPart)
          : intPart;
       }
@@ -7549,7 +7246,7 @@ function fromByteArray (uint8) {
   // PRIVATE HELPER FUNCTIONS
 
   // These functions don't need access to variables,
-  // e.g. DECIMAL_PLACES, in the scope of the `clone` function above.
+  // e.g. DECIMAL_PLACES, in the scope of the \`clone\` function above.
 
 
   function bitFloor(n) {
@@ -7855,7 +7552,7 @@ var isArray = Array.isArray || function (arr) {
 }
 
 function isArrayish (arr) {
-  return /Array\]$/.test(Object.prototype.toString.call(arr))
+  return /Array\]\$/.test(Object.prototype.toString.call(arr))
 }
 
 function isBufferish (p) {
@@ -8554,7 +8251,7 @@ Readable.prototype.read = function (n) {
     // call internal read method
     this._read(state.highWaterMark);
     state.sync = false;
-    // If _read pushed data synchronously, then `reading` will be false,
+    // If _read pushed data synchronously, then \`reading\` will be false,
     // and we need to re-evaluate how much data we can return to the user.
     if (!state.reading) n = howMuchToRead(nOrig, state);
   }
@@ -8730,10 +8427,10 @@ Readable.prototype.pipe = function (dest, pipeOpts) {
     increasedAwaitDrain = false;
     var ret = dest.write(chunk);
     if (false === ret && !increasedAwaitDrain) {
-      // If the user unpiped during `dest.write()`, it is possible
+      // If the user unpiped during \`dest.write()\`, it is possible
       // to get stuck in a permanently paused state if that write
       // also returned false.
-      // => Check whether `dest` is still a piping destination.
+      // => Check whether \`dest\` is still a piping destination.
       if ((state.pipesCount === 1 && state.pipes === dest || state.pipesCount > 1 && indexOf(state.pipes, dest) !== -1) && !cleanedUp) {
         debug('false write response, pause', src._readableState.awaitDrain);
         src._readableState.awaitDrain++;
@@ -9220,7 +8917,7 @@ function afterTransform(er, data) {
   ts.writechunk = null;
   ts.writecb = null;
 
-  if (data != null) // single equals check for both `null` and `undefined`
+  if (data != null) // single equals check for both \`null\` and \`undefined\`
     this.push(data);
 
   cb(er);
@@ -9285,10 +8982,10 @@ Transform.prototype.push = function (chunk, encoding) {
 // override this function in implementation classes.
 // 'chunk' is an input chunk.
 //
-// Call `push(newChunk)` to pass along transformed output
+// Call \`push(newChunk)\` to pass along transformed output
 // to the readable side.  You may call 'push' zero or more times.
 //
-// Call `cb(err)` when you are done with this chunk.  If you pass
+// Call \`cb(err)\` when you are done with this chunk.  If you pass
 // an error, then that'll put the hurt on the whole operation.  If you
 // never call cb(), then you'll never get another chunk.
 Transform.prototype._transform = function (chunk, encoding, cb) {
@@ -9334,7 +9031,7 @@ Transform.prototype._destroy = function (err, cb) {
 function done(stream, er, data) {
   if (er) return stream.emit('error', er);
 
-  if (data != null) // single equals check for both `null` and `undefined`
+  if (data != null) // single equals check for both \`null\` and \`undefined\`
     stream.push(data);
 
   // if there's nothing in the write buffer, then that means
@@ -9600,12 +9297,12 @@ function Writable(options) {
   Duplex = Duplex || require('./_stream_duplex');
 
   // Writable ctor is applied to Duplexes, too.
-  // `realHasInstance` is necessary because using plain `instanceof`
-  // would return false, as no `_writableState` property is attached.
+  // \`realHasInstance\` is necessary because using plain \`instanceof\`
+  // would return false, as no \`_writableState\` property is attached.
 
-  // Trying to use the custom `instanceof` for Writable here will also break the
+  // Trying to use the custom \`instanceof\` for Writable here will also break the
   // Node.js LazyTransform implementation, which has a non-trivial getter for
-  // `_writableState` that would lead to infinite recursion.
+  // \`_writableState\` that would lead to infinite recursion.
   if (!realHasInstance.call(Writable, this) && !(this instanceof Duplex)) {
     return new Writable(options);
   }
@@ -9641,7 +9338,7 @@ function writeAfterEnd(stream, cb) {
 }
 
 // Checks that a user-supplied chunk is valid, especially for the particular
-// mode the stream is in. Currently this means that `null` is never accepted
+// mode the stream is in. Currently this means that \`null\` is never accepted
 // and undefined/non-string values are only allowed in object mode.
 function validChunk(stream, state, chunk, cb) {
   var valid = true;
@@ -10333,7 +10030,7 @@ function _normalizeEncoding(enc) {
   }
 };
 
-// Do not cache `Buffer.isEncoding` when checking encoding names as some
+// Do not cache \`Buffer.isEncoding\` when checking encoding names as some
 // modules monkey-patch it to support additional encodings
 function normalizeEncoding(enc) {
   var nenc = _normalizeEncoding(enc);
@@ -10585,8 +10282,8 @@ function simpleEnd(buf) {
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
+// NOTE: These type checking functions intentionally don't use \`instanceof\`
+// because it is fragile and can be easily faked with \`Object.create()\`.
 
 function isArray(arg) {
   if (Array.isArray) {
@@ -10739,7 +10436,7 @@ function init (type, message, cause) {
   }, 'ewr')
 }
 
-// generic prototype, not intended to be actually used - helpful for `instanceof`
+// generic prototype, not intended to be actually used - helpful for \`instanceof\`
 function CustomError (message, cause) {
   Error.call(this)
   if (Error.captureStackTrace)
@@ -11799,7 +11496,7 @@ Readable.prototype.read = function(n) {
     state.sync = false;
   }
 
-  // If _read called its callback synchronously, then `reading`
+  // If _read called its callback synchronously, then \`reading\`
   // will be false, and we need to re-evaluate how much data we
   // can return to the user.
   if (doRead && !state.reading)
@@ -12570,10 +12267,10 @@ Transform.prototype.push = function(chunk, encoding) {
 // override this function in implementation classes.
 // 'chunk' is an input chunk.
 //
-// Call `push(newChunk)` to pass along transformed output
+// Call \`push(newChunk)\` to pass along transformed output
 // to the readable side.  You may call 'push' zero or more times.
 //
-// Call `cb(err)` when you are done with this chunk.  If you pass
+// Call \`cb(err)\` when you are done with this chunk.  If you pass
 // an error, then that'll put the hurt on the whole operation.  If you
 // never call cb(), then you'll never get another chunk.
 Transform.prototype._transform = function(chunk, encoding, cb) {
@@ -13125,7 +12822,7 @@ var StringDecoder = exports.StringDecoder = function(encoding) {
 // returned when calling write again with the remaining bytes.
 //
 // Note: Converting a Buffer containing an orphan surrogate to a String
-// currently works, but converting a String to a Buffer (via `new Buffer`, or
+// currently works, but converting a String to a Buffer (via \`new Buffer\`, or
 // Buffer#write) will replace incomplete surrogates with the unicode
 // replacement character. See https://codereview.chromium.org/121173009/ .
 StringDecoder.prototype.write = function(buffer) {
@@ -13329,7 +13026,7 @@ function base64DetectIncompleteChar(buffer) {
      * @param {Number} [kwArgs.dbVersion=1] The version of the store
      * @param {String} [kwArgs.keyPath='id'] The key path to use. If you want to
      *  setup IDBWrapper to work with out-of-line keys, you need to set this to
-     *  `null`
+     *  \`null\`
      * @param {Boolean} [kwArgs.autoIncrement=true] If set to true, IDBStore will
      *  automatically make sure a unique keyPath value is present on each object
      *  that is stored.
@@ -13352,7 +13049,7 @@ function base64DetectIncompleteChar(buffer) {
      * is ready to be used.
      * @example
      // create a store for customers with an additional index over the
-     // `lastname` property.
+     // \`lastname\` property.
      var myCustomerStore = new IDBStore({
          dbVersion: 1,
          storeName: 'customer-index',
@@ -13967,7 +13664,7 @@ function base64DetectIncompleteChar(buffer) {
          *
          */
         upsertBatch: function (dataArray, options, onSuccess, onError) {
-            // handle `dataArray, onSuccess, onError` signature
+            // handle \`dataArray, onSuccess, onError\` signature
             if (typeof options == 'function') {
                 onSuccess = options;
                 onError = onSuccess;
@@ -14074,7 +13771,7 @@ function base64DetectIncompleteChar(buffer) {
          // values 1 and 2, and the call looks like this:
          myStore.getBatch([1, 5, 2], onError, function (data) { … }, arrayType);
 
-         // this is what the `data` array will be like:
+         // this is what the \`data\` array will be like:
 
          // arrayType == 'sparse':
          // data is a sparse array containing two entries and having a length of 3:
@@ -14514,7 +14211,7 @@ function base64DetectIncompleteChar(buffer) {
          * @param {Number} [options.offset=0] Skip the provided number of results
          *  in the resultset
          * @param {Function} [options.filter=null] A custom filter function to
-         *  apply to query resuts before returning. Must return `false` to reject
+         *  apply to query resuts before returning. Must return \`false\` to reject
          *  an item. Can be combined with keyRanges.
          * @returns {IDBTransaction} The transaction used for this operation.
          */
@@ -14721,7 +14418,7 @@ var NON_HOST_TYPES = {
 };
 
 /**
- * Expose `is`
+ * Expose \`is\`
  */
 
 var is = module.exports = {};
@@ -14732,11 +14429,11 @@ var is = module.exports = {};
 
 /**
  * is.type
- * Test if `value` is a type of `type`.
+ * Test if \`value\` is a type of \`type\`.
  *
  * @param {Mixed} value value to test
  * @param {String} type type
- * @return {Boolean} true if `value` is a type of `type`, false otherwise
+ * @return {Boolean} true if \`value\` is a type of \`type\`, false otherwise
  * @api public
  */
 
@@ -14747,7 +14444,7 @@ is.type = function (value, type) {
 
 /**
  * is.defined
- * Test if `value` is defined.
+ * Test if \`value\` is defined.
  *
  * @param {Mixed} value value to test
  * @return {Boolean} true if 'value' is defined, false otherwise
@@ -14760,10 +14457,10 @@ is.defined = function (value) {
 
 /**
  * is.empty
- * Test if `value` is empty.
+ * Test if \`value\` is empty.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is empty, false otherwise
+ * @return {Boolean} true if \`value\` is empty, false otherwise
  * @api public
  */
 
@@ -14789,11 +14486,11 @@ is.empty = function (value) {
 
 /**
  * is.equal
- * Test if `value` is equal to `other`.
+ * Test if \`value\` is equal to \`other\`.
  *
  * @param {Mixed} value value to test
  * @param {Mixed} other value to compare with
- * @return {Boolean} true if `value` is equal to `other`, false otherwise
+ * @return {Boolean} true if \`value\` is equal to \`other\`, false otherwise
  */
 
 is.equal = function (value, other) {
@@ -14839,11 +14536,11 @@ is.equal = function (value, other) {
 
 /**
  * is.hosted
- * Test if `value` is hosted by `host`.
+ * Test if \`value\` is hosted by \`host\`.
  *
  * @param {Mixed} value to test
  * @param {Mixed} host host to test with
- * @return {Boolean} true if `value` is hosted by `host`, false otherwise
+ * @return {Boolean} true if \`value\` is hosted by \`host\`, false otherwise
  * @api public
  */
 
@@ -14854,10 +14551,10 @@ is.hosted = function (value, host) {
 
 /**
  * is.instance
- * Test if `value` is an instance of `constructor`.
+ * Test if \`value\` is an instance of \`constructor\`.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an instance of `constructor`
+ * @return {Boolean} true if \`value\` is an instance of \`constructor\`
  * @api public
  */
 
@@ -14867,10 +14564,10 @@ is.instance = is['instanceof'] = function (value, constructor) {
 
 /**
  * is.null
- * Test if `value` is null.
+ * Test if \`value\` is null.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is null, false otherwise
+ * @return {Boolean} true if \`value\` is null, false otherwise
  * @api public
  */
 
@@ -14880,10 +14577,10 @@ is['null'] = function (value) {
 
 /**
  * is.undefined
- * Test if `value` is undefined.
+ * Test if \`value\` is undefined.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is undefined, false otherwise
+ * @return {Boolean} true if \`value\` is undefined, false otherwise
  * @api public
  */
 
@@ -14897,10 +14594,10 @@ is.undefined = function (value) {
 
 /**
  * is.arguments
- * Test if `value` is an arguments object.
+ * Test if \`value\` is an arguments object.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an arguments object, false otherwise
+ * @return {Boolean} true if \`value\` is an arguments object, false otherwise
  * @api public
  */
 
@@ -14919,7 +14616,7 @@ is.arguments = function (value) {
  * Test if 'value' is an array.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an array, false otherwise
+ * @return {Boolean} true if \`value\` is an array, false otherwise
  * @api public
  */
 
@@ -14929,10 +14626,10 @@ is.array = function (value) {
 
 /**
  * is.arguments.empty
- * Test if `value` is an empty arguments object.
+ * Test if \`value\` is an empty arguments object.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an empty arguments object, false otherwise
+ * @return {Boolean} true if \`value\` is an empty arguments object, false otherwise
  * @api public
  */
 is.arguments.empty = function (value) {
@@ -14941,10 +14638,10 @@ is.arguments.empty = function (value) {
 
 /**
  * is.array.empty
- * Test if `value` is an empty array.
+ * Test if \`value\` is an empty array.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an empty array, false otherwise
+ * @return {Boolean} true if \`value\` is an empty array, false otherwise
  * @api public
  */
 is.array.empty = function (value) {
@@ -14953,10 +14650,10 @@ is.array.empty = function (value) {
 
 /**
  * is.arraylike
- * Test if `value` is an arraylike object.
+ * Test if \`value\` is an arraylike object.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an arguments object, false otherwise
+ * @return {Boolean} true if \`value\` is an arguments object, false otherwise
  * @api public
  */
 
@@ -14974,10 +14671,10 @@ is.arraylike = function (value) {
 
 /**
  * is.boolean
- * Test if `value` is a boolean.
+ * Test if \`value\` is a boolean.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a boolean, false otherwise
+ * @return {Boolean} true if \`value\` is a boolean, false otherwise
  * @api public
  */
 
@@ -14987,10 +14684,10 @@ is.boolean = function (value) {
 
 /**
  * is.false
- * Test if `value` is false.
+ * Test if \`value\` is false.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is false, false otherwise
+ * @return {Boolean} true if \`value\` is false, false otherwise
  * @api public
  */
 
@@ -15000,10 +14697,10 @@ is['false'] = function (value) {
 
 /**
  * is.true
- * Test if `value` is true.
+ * Test if \`value\` is true.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is true, false otherwise
+ * @return {Boolean} true if \`value\` is true, false otherwise
  * @api public
  */
 
@@ -15017,10 +14714,10 @@ is['true'] = function (value) {
 
 /**
  * is.date
- * Test if `value` is a date.
+ * Test if \`value\` is a date.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a date, false otherwise
+ * @return {Boolean} true if \`value\` is a date, false otherwise
  * @api public
  */
 
@@ -15034,10 +14731,10 @@ is.date = function (value) {
 
 /**
  * is.element
- * Test if `value` is an html element.
+ * Test if \`value\` is an html element.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an HTML Element, false otherwise
+ * @return {Boolean} true if \`value\` is an HTML Element, false otherwise
  * @api public
  */
 
@@ -15054,10 +14751,10 @@ is.element = function (value) {
 
 /**
  * is.error
- * Test if `value` is an error object.
+ * Test if \`value\` is an error object.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an error object, false otherwise
+ * @return {Boolean} true if \`value\` is an error object, false otherwise
  * @api public
  */
 
@@ -15071,10 +14768,10 @@ is.error = function (value) {
 
 /**
  * is.fn / is.function (deprecated)
- * Test if `value` is a function.
+ * Test if \`value\` is a function.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a function, false otherwise
+ * @return {Boolean} true if \`value\` is a function, false otherwise
  * @api public
  */
 
@@ -15089,10 +14786,10 @@ is.fn = is['function'] = function (value) {
 
 /**
  * is.number
- * Test if `value` is a number.
+ * Test if \`value\` is a number.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a number, false otherwise
+ * @return {Boolean} true if \`value\` is a number, false otherwise
  * @api public
  */
 
@@ -15102,10 +14799,10 @@ is.number = function (value) {
 
 /**
  * is.infinite
- * Test if `value` is positive or negative infinity.
+ * Test if \`value\` is positive or negative infinity.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is positive or negative Infinity, false otherwise
+ * @return {Boolean} true if \`value\` is positive or negative Infinity, false otherwise
  * @api public
  */
 is.infinite = function (value) {
@@ -15114,10 +14811,10 @@ is.infinite = function (value) {
 
 /**
  * is.decimal
- * Test if `value` is a decimal number.
+ * Test if \`value\` is a decimal number.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a decimal number, false otherwise
+ * @return {Boolean} true if \`value\` is a decimal number, false otherwise
  * @api public
  */
 
@@ -15127,11 +14824,11 @@ is.decimal = function (value) {
 
 /**
  * is.divisibleBy
- * Test if `value` is divisible by `n`.
+ * Test if \`value\` is divisible by \`n\`.
  *
  * @param {Number} value value to test
  * @param {Number} n dividend
- * @return {Boolean} true if `value` is divisible by `n`, false otherwise
+ * @return {Boolean} true if \`value\` is divisible by \`n\`, false otherwise
  * @api public
  */
 
@@ -15144,10 +14841,10 @@ is.divisibleBy = function (value, n) {
 
 /**
  * is.int
- * Test if `value` is an integer.
+ * Test if \`value\` is an integer.
  *
  * @param value to test
- * @return {Boolean} true if `value` is an integer, false otherwise
+ * @return {Boolean} true if \`value\` is an integer, false otherwise
  * @api public
  */
 
@@ -15157,11 +14854,11 @@ is.int = function (value) {
 
 /**
  * is.maximum
- * Test if `value` is greater than 'others' values.
+ * Test if \`value\` is greater than 'others' values.
  *
  * @param {Number} value value to test
  * @param {Array} others values to compare with
- * @return {Boolean} true if `value` is greater than `others` values
+ * @return {Boolean} true if \`value\` is greater than \`others\` values
  * @api public
  */
 
@@ -15184,11 +14881,11 @@ is.maximum = function (value, others) {
 
 /**
  * is.minimum
- * Test if `value` is less than `others` values.
+ * Test if \`value\` is less than \`others\` values.
  *
  * @param {Number} value value to test
  * @param {Array} others values to compare with
- * @return {Boolean} true if `value` is less than `others` values
+ * @return {Boolean} true if \`value\` is less than \`others\` values
  * @api public
  */
 
@@ -15211,10 +14908,10 @@ is.minimum = function (value, others) {
 
 /**
  * is.nan
- * Test if `value` is not a number.
+ * Test if \`value\` is not a number.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is not a number, false otherwise
+ * @return {Boolean} true if \`value\` is not a number, false otherwise
  * @api public
  */
 
@@ -15224,10 +14921,10 @@ is.nan = function (value) {
 
 /**
  * is.even
- * Test if `value` is an even number.
+ * Test if \`value\` is an even number.
  *
  * @param {Number} value value to test
- * @return {Boolean} true if `value` is an even number, false otherwise
+ * @return {Boolean} true if \`value\` is an even number, false otherwise
  * @api public
  */
 
@@ -15237,10 +14934,10 @@ is.even = function (value) {
 
 /**
  * is.odd
- * Test if `value` is an odd number.
+ * Test if \`value\` is an odd number.
  *
  * @param {Number} value value to test
- * @return {Boolean} true if `value` is an odd number, false otherwise
+ * @return {Boolean} true if \`value\` is an odd number, false otherwise
  * @api public
  */
 
@@ -15250,7 +14947,7 @@ is.odd = function (value) {
 
 /**
  * is.ge
- * Test if `value` is greater than or equal to `other`.
+ * Test if \`value\` is greater than or equal to \`other\`.
  *
  * @param {Number} value value to test
  * @param {Number} other value to compare with
@@ -15267,7 +14964,7 @@ is.ge = function (value, other) {
 
 /**
  * is.gt
- * Test if `value` is greater than `other`.
+ * Test if \`value\` is greater than \`other\`.
  *
  * @param {Number} value value to test
  * @param {Number} other value to compare with
@@ -15284,7 +14981,7 @@ is.gt = function (value, other) {
 
 /**
  * is.le
- * Test if `value` is less than or equal to `other`.
+ * Test if \`value\` is less than or equal to \`other\`.
  *
  * @param {Number} value value to test
  * @param {Number} other value to compare with
@@ -15301,11 +14998,11 @@ is.le = function (value, other) {
 
 /**
  * is.lt
- * Test if `value` is less than `other`.
+ * Test if \`value\` is less than \`other\`.
  *
  * @param {Number} value value to test
  * @param {Number} other value to compare with
- * @return {Boolean} if `value` is less than `other`
+ * @return {Boolean} if \`value\` is less than \`other\`
  * @api public
  */
 
@@ -15318,7 +15015,7 @@ is.lt = function (value, other) {
 
 /**
  * is.within
- * Test if `value` is within `start` and `finish`.
+ * Test if \`value\` is within \`start\` and \`finish\`.
  *
  * @param {Number} value value to test
  * @param {Number} start lower bound
@@ -15342,10 +15039,10 @@ is.within = function (value, start, finish) {
 
 /**
  * is.object
- * Test if `value` is an object.
+ * Test if \`value\` is an object.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is an object, false otherwise
+ * @return {Boolean} true if \`value\` is an object, false otherwise
  * @api public
  */
 
@@ -15355,10 +15052,10 @@ is.object = function (value) {
 
 /**
  * is.hash
- * Test if `value` is a hash - a plain object literal.
+ * Test if \`value\` is a hash - a plain object literal.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a hash, false otherwise
+ * @return {Boolean} true if \`value\` is a hash, false otherwise
  * @api public
  */
 
@@ -15372,10 +15069,10 @@ is.hash = function (value) {
 
 /**
  * is.regexp
- * Test if `value` is a regular expression.
+ * Test if \`value\` is a regular expression.
  *
  * @param {Mixed} value value to test
- * @return {Boolean} true if `value` is a regexp, false otherwise
+ * @return {Boolean} true if \`value\` is a regexp, false otherwise
  * @api public
  */
 
@@ -15389,7 +15086,7 @@ is.regexp = function (value) {
 
 /**
  * is.string
- * Test if `value` is a string.
+ * Test if \`value\` is a string.
  *
  * @param {Mixed} value value to test
  * @return {Boolean} true if 'value' is a string, false otherwise
@@ -16197,7 +15894,7 @@ Readable.prototype.read = function(n) {
     state.sync = false;
   }
 
-  // If _read pushed data synchronously, then `reading` will be false,
+  // If _read pushed data synchronously, then \`reading\` will be false,
   // and we need to re-evaluate how much data we can return to the user.
   if (doRead && !state.reading)
     n = howMuchToRead(nOrig, state);
@@ -16926,10 +16623,10 @@ Transform.prototype.push = function(chunk, encoding) {
 // override this function in implementation classes.
 // 'chunk' is an input chunk.
 //
-// Call `push(newChunk)` to pass along transformed output
+// Call \`push(newChunk)\` to pass along transformed output
 // to the readable side.  You may call 'push' zero or more times.
 //
-// Call `cb(err)` when you are done with this chunk.  If you pass
+// Call \`cb(err)\` when you are done with this chunk.  If you pass
 // an error, then that'll put the hurt on the whole operation.  If you
 // never call cb(), then you'll never get another chunk.
 Transform.prototype._transform = function(chunk, encoding, cb) {
@@ -18680,9 +18377,9 @@ Level.destroy = function (db, callback) {
 
 var checkKeyValue = Level.prototype._checkKeyValue = function (obj, type) {
   if (obj === null || obj === undefined)
-    return new Error(type + ' cannot be `null` or `undefined`')
+    return new Error(type + ' cannot be \`null\` or \`undefined\`')
   if (obj === null || obj === undefined)
-    return new Error(type + ' cannot be `null` or `undefined`')
+    return new Error(type + ' cannot be \`null\` or \`undefined\`')
   if (isBuffer(obj) && obj.byteLength === 0)
     return new Error(type + ' cannot be an empty ArrayBuffer')
   if (String(obj) === '')
@@ -19181,15 +18878,15 @@ if (typeof module === 'object')
  * there are no circular references in your object, you can save some CPU time
  * by calling clone(obj, false).
  *
- * Caution: if `circular` is false and `parent` contains circular references,
+ * Caution: if \`circular\` is false and \`parent\` contains circular references,
  * your program may enter an infinite loop and crash.
  *
- * @param `parent` - the object to be cloned
- * @param `circular` - set to true if the object to be cloned may contain
+ * @param \`parent\` - the object to be cloned
+ * @param \`circular\` - set to true if the object to be cloned may contain
  *    circular references. (optional - true by default)
- * @param `depth` - set to a number if the object is only to be cloned to
+ * @param \`depth\` - set to a number if the object is only to be cloned to
  *    a particular depth. (optional - defaults to Infinity)
- * @param `prototype` - sets the prototype to be used when cloning an object.
+ * @param \`prototype\` - sets the prototype to be used when cloning an object.
  *    (optional - defaults to parent prototype).
 */
 
@@ -20225,7 +19922,7 @@ function ReadStream (options, db, iteratorFactory) {
 
   Readable.call(this, { objectMode: true, highWaterMark: options.highWaterMark })
 
-  // purely to keep `db` around until we're done so it's not GCed if the user doesn't keep a ref
+  // purely to keep \`db\` around until we're done so it's not GCed if the user doesn't keep a ref
   this._db = db
 
   options = this._options = extend(defaultOptions, options)
@@ -20421,7 +20118,7 @@ function getLevelDOWN () {
     return leveldown
 
   var requiredVersion       = require('../package.json').devDependencies.leveldown
-    , missingLevelDOWNError = 'Could not locate LevelDOWN, try `npm install leveldown`'
+    , missingLevelDOWNError = 'Could not locate LevelDOWN, try \`npm install leveldown\`'
     , leveldownVersion
 
   try {
@@ -21271,7 +20968,7 @@ function onceStrict (fn) {
     f.called = true
     return f.value = fn.apply(this, arguments)
   }
-  var name = fn.name || 'Function wrapped with `once`'
+  var name = fn.name || 'Function wrapped with \`once\`'
   f.onceError = name + " shouldn't be called more than once"
   f.called = false
   return f
@@ -22186,7 +21883,7 @@ arguments[4][27][0].apply(exports,arguments)
 var Cancel = require('./Cancel');
 
 /**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ * A \`CancelToken\` is an object that can be used to request cancellation of an operation.
  *
  * @class
  * @param {Function} executor The executor function.
@@ -22214,7 +21911,7 @@ function CancelToken(executor) {
 }
 
 /**
- * Throws a `Cancel` if cancellation has been requested.
+ * Throws a \`Cancel\` if cancellation has been requested.
  */
 CancelToken.prototype.throwIfRequested = function throwIfRequested() {
   if (this.reason) {
@@ -22223,8 +21920,8 @@ CancelToken.prototype.throwIfRequested = function throwIfRequested() {
 };
 
 /**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
+ * Returns an object that contains a new \`CancelToken\` and a function that, when called,
+ * cancels the \`CancelToken\`.
  */
 CancelToken.source = function source() {
   var cancel;
@@ -22406,7 +22103,7 @@ var isCancel = require('../cancel/isCancel');
 var defaults = require('../defaults');
 
 /**
- * Throws a `Cancel` if cancellation has been requested.
+ * Throws a \`Cancel\` if cancellation has been requested.
  */
 function throwIfCancellationRequested(config) {
   if (config.cancelToken) {
@@ -22979,16 +22676,16 @@ module.exports={
  * Author:   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
  * License:  MIT
  *
- * `npm install typedarray-to-buffer`
+ * \`npm install typedarray-to-buffer\`
  */
 
 module.exports = function (arr) {
   if (typeof Buffer._augment === 'function' && Buffer.TYPED_ARRAY_SUPPORT) {
-    // If `Buffer` is from the `buffer` module and this browser supports typed arrays,
-    // then augment it with all the `Buffer` methods.
+    // If \`Buffer\` is from the \`buffer\` module and this browser supports typed arrays,
+    // then augment it with all the \`Buffer\` methods.
     return Buffer._augment(arr)
   } else {
-    // Otherwise, fallback to creating a `Buffer` with a copy.
+    // Otherwise, fallback to creating a \`Buffer\` with a copy.
     return new Buffer(arr)
   }
 }
@@ -23009,7 +22706,7 @@ var ECMAScript = (function() {
 
   return {
     // Class returns internal [[Class]] property, used to avoid cross-frame instanceof issues:
-    Class: function(v) { return opts.call(v).replace(/^\[object *|\]$/g, ''); },
+    Class: function(v) { return opts.call(v).replace(/^\[object *|\]\$/g, ''); },
     HasProperty: function(o, p) { return p in o; },
     HasOwnProperty: function(o, p) { return ophop.call(o, p); },
     IsCallable: function(o) { return typeof o === 'function'; },
@@ -23639,17 +23336,17 @@ module.exports = deprecate;
  * Mark that a method should not be used.
  * Returns a modified function which warns once by default.
  *
- * If `localStorage.noDeprecation = true` is set, then it is a no-op.
+ * If \`localStorage.noDeprecation = true\` is set, then it is a no-op.
  *
- * If `localStorage.throwDeprecation = true` is set, then deprecated functions
+ * If \`localStorage.throwDeprecation = true\` is set, then deprecated functions
  * will throw an Error when invoked.
  *
- * If `localStorage.traceDeprecation = true` is set, then deprecated functions
- * will invoke `console.trace()` instead of `console.error()`.
+ * If \`localStorage.traceDeprecation = true\` is set, then deprecated functions
+ * will invoke \`console.trace()\` instead of \`console.error()\`.
  *
  * @param {Function} fn - the function to deprecate
- * @param {String} msg - the string to print to the console when `fn` is invoked
- * @returns {Function} a new "deprecated" version of `fn`
+ * @param {String} msg - the string to print to the console when \`fn\` is invoked
+ * @returns {Function} a new "deprecated" version of \`fn\`
  * @api public
  */
 
@@ -23677,7 +23374,7 @@ function deprecate (fn, msg) {
 }
 
 /**
- * Checks `localStorage` for boolean values for the given `name`.
+ * Checks \`localStorage\` for boolean values for the given \`name\`.
  *
  * @param {String} name
  * @returns {Boolean}
@@ -23817,16 +23514,16 @@ var K_MAX_LENGTH = 0x7fffffff
 exports.kMaxLength = K_MAX_LENGTH
 
 /**
- * If `Buffer.TYPED_ARRAY_SUPPORT`:
+ * If \`Buffer.TYPED_ARRAY_SUPPORT\`:
  *   === true    Use Uint8Array implementation (fastest)
- *   === false   Print warning and recommend using `buffer` v4.x which has an Object
+ *   === false   Print warning and recommend using \`buffer\` v4.x which has an Object
  *               implementation (most compatible, even IE6)
  *
  * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
  * Opera 11.6+, iOS 4.2+.
  *
  * We report that the browser does not support typed arrays if the are not subclassable
- * using __proto__. Firefox 4-29 lacks support for adding new properties to `Uint8Array`
+ * using __proto__. Firefox 4-29 lacks support for adding new properties to \`Uint8Array\`
  * (See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438). IE 10 lacks support
  * for __proto__ and has a buggy typed array implementation.
  */
@@ -23836,7 +23533,7 @@ if (!Buffer.TYPED_ARRAY_SUPPORT && typeof console !== 'undefined' &&
     typeof console.error === 'function') {
   console.error(
     'This browser lacks typed array (Uint8Array) support which is required by ' +
-    '`buffer` v5.x. Use `buffer` v4.x if you require old browser support.'
+    '\`buffer\` v5.x. Use \`buffer\` v4.x if you require old browser support.'
   )
 }
 
@@ -23871,20 +23568,20 @@ function createBuffer (length) {
   if (length > K_MAX_LENGTH) {
     throw new RangeError('The value "' + length + '" is invalid for option "size"')
   }
-  // Return an augmented `Uint8Array` instance
+  // Return an augmented \`Uint8Array\` instance
   var buf = new Uint8Array(length)
   buf.__proto__ = Buffer.prototype
   return buf
 }
 
 /**
- * The Buffer constructor returns instances of `Uint8Array` that have their
- * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
- * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
- * and the `Uint8Array` methods. Square bracket notation works as expected -- it
+ * The Buffer constructor returns instances of \`Uint8Array\` that have their
+ * prototype changed to \`Buffer.prototype\`. Furthermore, \`Buffer\` is a subclass of
+ * \`Uint8Array\`, so the returned instances will have all the node \`Buffer\` methods
+ * and the \`Uint8Array\` methods. Square bracket notation works as expected -- it
  * returns a single octet.
  *
- * The `Uint8Array` prototype remains unmodified.
+ * The \`Uint8Array\` prototype remains unmodified.
  */
 
 function Buffer (arg, encodingOrOffset, length) {
@@ -24079,7 +23776,7 @@ function fromArrayBuffer (array, byteOffset, length) {
     buf = new Uint8Array(array, byteOffset, length)
   }
 
-  // Return an augmented `Uint8Array` instance
+  // Return an augmented \`Uint8Array\` instance
   buf.__proto__ = Buffer.prototype
   return buf
 }
@@ -24110,7 +23807,7 @@ function fromObject (obj) {
 }
 
 function checked (length) {
-  // Note: cannot use `length < K_MAX_LENGTH` here because that fails when
+  // Note: cannot use \`length < K_MAX_LENGTH\` here because that fails when
   // length is NaN (which is otherwise coerced to zero.)
   if (length >= K_MAX_LENGTH) {
     throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
@@ -24329,11 +24026,11 @@ function slowToString (encoding, start, end) {
   }
 }
 
-// This property is used by `Buffer.isBuffer` (and the `is-buffer` npm package)
-// to detect a Buffer instance. It's not possible to use `instanceof Buffer`
+// This property is used by \`Buffer.isBuffer\` (and the \`is-buffer\` npm package)
+// to detect a Buffer instance. It's not possible to use \`instanceof Buffer\`
 // reliably in a browserify context because there could be multiple different
 // copies of the 'buffer' package in use. This method works even for Buffer
-// instances that were created from another copy of the `buffer` package.
+// instances that were created from another copy of the \`buffer\` package.
 // See: https://github.com/feross/buffer/issues/154
 Buffer.prototype._isBuffer = true
 
@@ -24398,7 +24095,7 @@ Buffer.prototype.equals = function equals (b) {
 Buffer.prototype.inspect = function inspect () {
   var str = ''
   var max = exports.INSPECT_MAX_BYTES
-  str = this.toString('hex', 0, max).replace(/(.{2})/g, '$1 ').trim()
+  str = this.toString('hex', 0, max).replace(/(.{2})/g, '\$1 ').trim()
   if (this.length > max) str += ' ... '
   return '<Buffer ' + str + '>'
 }
@@ -24468,13 +24165,13 @@ Buffer.prototype.compare = function compare (target, start, end, thisStart, this
   return 0
 }
 
-// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
-// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
+// Finds either the first index of \`val\` in \`buffer\` at offset >= \`byteOffset\`,
+// OR the last index of \`val\` in \`buffer\` at offset <= \`byteOffset\`.
 //
 // Arguments:
 // - buffer - a Buffer to search
 // - val - a string, Buffer, or number
-// - byteOffset - an index into `buffer`; will be clamped to an int32
+// - byteOffset - an index into \`buffer\`; will be clamped to an int32
 // - encoding - an optional encoding, relevant is val is a string
 // - dir - true for indexOf, false for lastIndexOf
 function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
@@ -24892,7 +24589,7 @@ Buffer.prototype.slice = function slice (start, end) {
   if (end < start) end = start
 
   var newBuf = this.subarray(start, end)
-  // Return an augmented `Uint8Array` instance
+  // Return an augmented \`Uint8Array\` instance
   newBuf.__proto__ = Buffer.prototype
   return newBuf
 }
@@ -25376,7 +25073,7 @@ Buffer.prototype.fill = function fill (val, start, end, encoding) {
       var code = val.charCodeAt(0)
       if ((encoding === 'utf8' && code < 128) ||
           encoding === 'latin1') {
-        // Fast path: If `val` fits into a single byte, use that numeric value.
+        // Fast path: If \`val\` fits into a single byte, use that numeric value.
         val = code
       }
     }
@@ -25562,7 +25259,7 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 // ArrayBuffer or Uint8Array objects from other contexts (i.e. iframes) do not pass
-// the `instanceof` check but they should be treated as of that type.
+// the \`instanceof\` check but they should be treated as of that type.
 // See: https://github.com/feross/buffer/issues/166
 function isInstance (obj, type) {
   return obj instanceof type ||
@@ -25582,11 +25279,11 @@ var GetIntrinsic = require('get-intrinsic');
 
 var callBind = require('./');
 
-var $indexOf = callBind(GetIntrinsic('String.prototype.indexOf'));
+var \$indexOf = callBind(GetIntrinsic('String.prototype.indexOf'));
 
 module.exports = function callBoundIntrinsic(name, allowMissing) {
 	var intrinsic = GetIntrinsic(name, !!allowMissing);
-	if (typeof intrinsic === 'function' && $indexOf(name, '.prototype.') > -1) {
+	if (typeof intrinsic === 'function' && \$indexOf(name, '.prototype.') > -1) {
 		return callBind(intrinsic);
 	}
 	return intrinsic;
@@ -25598,33 +25295,33 @@ module.exports = function callBoundIntrinsic(name, allowMissing) {
 var bind = require('function-bind');
 var GetIntrinsic = require('get-intrinsic');
 
-var $apply = GetIntrinsic('%Function.prototype.apply%');
-var $call = GetIntrinsic('%Function.prototype.call%');
-var $reflectApply = GetIntrinsic('%Reflect.apply%', true) || bind.call($call, $apply);
+var \$apply = GetIntrinsic('%Function.prototype.apply%');
+var \$call = GetIntrinsic('%Function.prototype.call%');
+var \$reflectApply = GetIntrinsic('%Reflect.apply%', true) || bind.call(\$call, \$apply);
 
-var $gOPD = GetIntrinsic('%Object.getOwnPropertyDescriptor%', true);
-var $defineProperty = GetIntrinsic('%Object.defineProperty%', true);
-var $max = GetIntrinsic('%Math.max%');
+var \$gOPD = GetIntrinsic('%Object.getOwnPropertyDescriptor%', true);
+var \$defineProperty = GetIntrinsic('%Object.defineProperty%', true);
+var \$max = GetIntrinsic('%Math.max%');
 
-if ($defineProperty) {
+if (\$defineProperty) {
 	try {
-		$defineProperty({}, 'a', { value: 1 });
+		\$defineProperty({}, 'a', { value: 1 });
 	} catch (e) {
 		// IE 8 has a broken defineProperty
-		$defineProperty = null;
+		\$defineProperty = null;
 	}
 }
 
 module.exports = function callBind(originalFunction) {
-	var func = $reflectApply(bind, $call, arguments);
-	if ($gOPD && $defineProperty) {
-		var desc = $gOPD(func, 'length');
+	var func = \$reflectApply(bind, \$call, arguments);
+	if (\$gOPD && \$defineProperty) {
+		var desc = \$gOPD(func, 'length');
 		if (desc.configurable) {
 			// original length, plus the receiver, minus any additional arguments (after the receiver)
-			$defineProperty(
+			\$defineProperty(
 				func,
 				'length',
-				{ value: 1 + $max(0, originalFunction.length - (arguments.length - 1)) }
+				{ value: 1 + \$max(0, originalFunction.length - (arguments.length - 1)) }
 			);
 		}
 	}
@@ -25632,11 +25329,11 @@ module.exports = function callBind(originalFunction) {
 };
 
 var applyBind = function applyBind() {
-	return $reflectApply(bind, $apply, arguments);
+	return \$reflectApply(bind, \$apply, arguments);
 };
 
-if ($defineProperty) {
-	$defineProperty(module.exports, 'apply', { value: applyBind });
+if (\$defineProperty) {
+	\$defineProperty(module.exports, 'apply', { value: applyBind });
 } else {
 	module.exports.apply = applyBind;
 }
@@ -25646,17 +25343,17 @@ if ($defineProperty) {
 
 var GetIntrinsic = require('get-intrinsic');
 
-var $gOPD = GetIntrinsic('%Object.getOwnPropertyDescriptor%', true);
-if ($gOPD) {
+var \$gOPD = GetIntrinsic('%Object.getOwnPropertyDescriptor%', true);
+if (\$gOPD) {
 	try {
-		$gOPD([], 'length');
+		\$gOPD([], 'length');
 	} catch (e) {
 		// IE 8 has a broken gOPD
-		$gOPD = null;
+		\$gOPD = null;
 	}
 }
 
-module.exports = $gOPD;
+module.exports = \$gOPD;
 
 },{"get-intrinsic":201}],197:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
@@ -25795,7 +25492,7 @@ EventEmitter.prototype.emit = function emit(type) {
     if (args.length > 0)
       er = args[0];
     if (er instanceof Error) {
-      // Note: The comments on the `throw` lines are intentional, they show
+      // Note: The comments on the \`throw\` lines are intentional, they show
       // up in Node's output if this results in an unhandled exception.
       throw er; // Unhandled 'error' event
     }
@@ -25840,7 +25537,7 @@ function _addListener(target, type, listener, prepend) {
       target.emit('newListener', type,
                   listener.listener ? listener.listener : listener);
 
-      // Re-assign `events` because a newListener handler could have caused the
+      // Re-assign \`events\` because a newListener handler could have caused the
       // this._events to be assigned to a new object
       events = target._events;
     }
@@ -26142,10 +25839,10 @@ function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
       emitter.on(name, listener);
     }
   } else if (typeof emitter.addEventListener === 'function') {
-    // EventTarget does not have `error` event semantics like Node
-    // EventEmitters, we do not listen for `error` events here.
+    // EventTarget does not have \`error\` event semantics like Node
+    // EventEmitters, we do not listen for \`error\` events here.
     emitter.addEventListener(name, function wrapListener(arg) {
-      // IE does not have builtin `{ once: true }` support so we
+      // IE does not have builtin \`{ once: true }\` support so we
       // have to do it manually.
       if (flags.once) {
         emitter.removeEventListener(name, wrapListener);
@@ -26260,7 +25957,7 @@ module.exports = function bind(that) {
     var boundLength = Math.max(0, target.length - args.length);
     var boundArgs = [];
     for (var i = 0; i < boundLength; i++) {
-        boundArgs.push('$' + i);
+        boundArgs.push('\$' + i);
     }
 
     bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this,arguments); }')(binder);
@@ -26287,30 +25984,30 @@ module.exports = Function.prototype.bind || implementation;
 
 var undefined;
 
-var $SyntaxError = SyntaxError;
-var $Function = Function;
-var $TypeError = TypeError;
+var \$SyntaxError = SyntaxError;
+var \$Function = Function;
+var \$TypeError = TypeError;
 
 // eslint-disable-next-line consistent-return
 var getEvalledConstructor = function (expressionSyntax) {
 	try {
-		return $Function('"use strict"; return (' + expressionSyntax + ').constructor;')();
+		return \$Function('"use strict"; return (' + expressionSyntax + ').constructor;')();
 	} catch (e) {}
 };
 
-var $gOPD = Object.getOwnPropertyDescriptor;
-if ($gOPD) {
+var \$gOPD = Object.getOwnPropertyDescriptor;
+if (\$gOPD) {
 	try {
-		$gOPD({}, '');
+		\$gOPD({}, '');
 	} catch (e) {
-		$gOPD = null; // this is IE 8, which has a broken gOPD
+		\$gOPD = null; // this is IE 8, which has a broken gOPD
 	}
 }
 
 var throwTypeError = function () {
-	throw new $TypeError();
+	throw new \$TypeError();
 };
-var ThrowTypeError = $gOPD
+var ThrowTypeError = \$gOPD
 	? (function () {
 		try {
 			// eslint-disable-next-line no-unused-expressions, no-caller, no-restricted-properties
@@ -26319,7 +26016,7 @@ var ThrowTypeError = $gOPD
 		} catch (calleeThrows) {
 			try {
 				// IE 8 throws on Object.getOwnPropertyDescriptor(arguments, '')
-				return $gOPD(arguments, 'callee').get;
+				return \$gOPD(arguments, 'callee').get;
 			} catch (gOPDthrows) {
 				return throwTypeError;
 			}
@@ -26360,7 +26057,7 @@ var INTRINSICS = {
 	'%Float32Array%': typeof Float32Array === 'undefined' ? undefined : Float32Array,
 	'%Float64Array%': typeof Float64Array === 'undefined' ? undefined : Float64Array,
 	'%FinalizationRegistry%': typeof FinalizationRegistry === 'undefined' ? undefined : FinalizationRegistry,
-	'%Function%': $Function,
+	'%Function%': \$Function,
 	'%GeneratorFunction%': needsEval,
 	'%Int8Array%': typeof Int8Array === 'undefined' ? undefined : Int8Array,
 	'%Int16Array%': typeof Int16Array === 'undefined' ? undefined : Int16Array,
@@ -26388,10 +26085,10 @@ var INTRINSICS = {
 	'%String%': String,
 	'%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
 	'%Symbol%': hasSymbols ? Symbol : undefined,
-	'%SyntaxError%': $SyntaxError,
+	'%SyntaxError%': \$SyntaxError,
 	'%ThrowTypeError%': ThrowTypeError,
 	'%TypedArray%': TypedArray,
-	'%TypeError%': $TypeError,
+	'%TypeError%': \$TypeError,
 	'%Uint8Array%': typeof Uint8Array === 'undefined' ? undefined : Uint8Array,
 	'%Uint8ClampedArray%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray,
 	'%Uint16Array%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array,
@@ -26483,25 +26180,25 @@ var LEGACY_ALIASES = {
 
 var bind = require('function-bind');
 var hasOwn = require('has');
-var $concat = bind.call(Function.call, Array.prototype.concat);
-var $spliceApply = bind.call(Function.apply, Array.prototype.splice);
-var $replace = bind.call(Function.call, String.prototype.replace);
-var $strSlice = bind.call(Function.call, String.prototype.slice);
+var \$concat = bind.call(Function.call, Array.prototype.concat);
+var \$spliceApply = bind.call(Function.apply, Array.prototype.splice);
+var \$replace = bind.call(Function.call, String.prototype.replace);
+var \$strSlice = bind.call(Function.call, String.prototype.slice);
 
 /* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
-var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
+var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%\$))/g;
 var reEscapeChar = /\\(\\)?/g; /** Used to match backslashes in property paths. */
 var stringToPath = function stringToPath(string) {
-	var first = $strSlice(string, 0, 1);
-	var last = $strSlice(string, -1);
+	var first = \$strSlice(string, 0, 1);
+	var last = \$strSlice(string, -1);
 	if (first === '%' && last !== '%') {
-		throw new $SyntaxError('invalid intrinsic syntax, expected closing `%`');
+		throw new \$SyntaxError('invalid intrinsic syntax, expected closing \`%\`');
 	} else if (last === '%' && first !== '%') {
-		throw new $SyntaxError('invalid intrinsic syntax, expected opening `%`');
+		throw new \$SyntaxError('invalid intrinsic syntax, expected opening \`%\`');
 	}
 	var result = [];
-	$replace(string, rePropName, function (match, number, quote, subString) {
-		result[result.length] = quote ? $replace(subString, reEscapeChar, '$1') : number || match;
+	\$replace(string, rePropName, function (match, number, quote, subString) {
+		result[result.length] = quote ? \$replace(subString, reEscapeChar, '\$1') : number || match;
 	});
 	return result;
 };
@@ -26521,7 +26218,7 @@ var getBaseIntrinsic = function getBaseIntrinsic(name, allowMissing) {
 			value = doEval(intrinsicName);
 		}
 		if (typeof value === 'undefined' && !allowMissing) {
-			throw new $TypeError('intrinsic ' + name + ' exists, but is not available. Please file an issue!');
+			throw new \$TypeError('intrinsic ' + name + ' exists, but is not available. Please file an issue!');
 		}
 
 		return {
@@ -26531,15 +26228,15 @@ var getBaseIntrinsic = function getBaseIntrinsic(name, allowMissing) {
 		};
 	}
 
-	throw new $SyntaxError('intrinsic ' + name + ' does not exist!');
+	throw new \$SyntaxError('intrinsic ' + name + ' does not exist!');
 };
 
 module.exports = function GetIntrinsic(name, allowMissing) {
 	if (typeof name !== 'string' || name.length === 0) {
-		throw new $TypeError('intrinsic name must be a non-empty string');
+		throw new \$TypeError('intrinsic name must be a non-empty string');
 	}
 	if (arguments.length > 1 && typeof allowMissing !== 'boolean') {
-		throw new $TypeError('"allowMissing" argument must be a boolean');
+		throw new \$TypeError('"allowMissing" argument must be a boolean');
 	}
 
 	var parts = stringToPath(name);
@@ -26553,21 +26250,21 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 	var alias = intrinsic.alias;
 	if (alias) {
 		intrinsicBaseName = alias[0];
-		$spliceApply(parts, $concat([0, 1], alias));
+		\$spliceApply(parts, \$concat([0, 1], alias));
 	}
 
 	for (var i = 1, isOwn = true; i < parts.length; i += 1) {
 		var part = parts[i];
-		var first = $strSlice(part, 0, 1);
-		var last = $strSlice(part, -1);
+		var first = \$strSlice(part, 0, 1);
+		var last = \$strSlice(part, -1);
 		if (
 			(
-				(first === '"' || first === "'" || first === '`')
-				|| (last === '"' || last === "'" || last === '`')
+				(first === '"' || first === "'" || first === '\`')
+				|| (last === '"' || last === "'" || last === '\`')
 			)
 			&& first !== last
 		) {
-			throw new $SyntaxError('property names with quotes must have matching quotes');
+			throw new \$SyntaxError('property names with quotes must have matching quotes');
 		}
 		if (part === 'constructor' || !isOwn) {
 			skipFurtherCaching = true;
@@ -26581,18 +26278,18 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 		} else if (value != null) {
 			if (!(part in value)) {
 				if (!allowMissing) {
-					throw new $TypeError('base intrinsic for ' + name + ' exists, but the property is not available.');
+					throw new \$TypeError('base intrinsic for ' + name + ' exists, but the property is not available.');
 				}
 				return void undefined;
 			}
-			if ($gOPD && (i + 1) >= parts.length) {
-				var desc = $gOPD(value, part);
+			if (\$gOPD && (i + 1) >= parts.length) {
+				var desc = \$gOPD(value, part);
 				isOwn = !!desc;
 
 				// By convention, when a data property is converted to an accessor
 				// property to emulate a data property that does not suffer from
 				// the override mistake, that accessor's getter is marked with
-				// an `originalValue` property. Here, when we detect this, we
+				// an \`originalValue\` property. Here, when we detect this, we
 				// uphold the illusion by pretending to see that original data
 				// property, i.e., returning the value rather than the getter
 				// itself.
@@ -26784,13 +26481,13 @@ arguments[4][86][0].apply(exports,arguments)
 var hasToStringTag = require('has-tostringtag/shams')();
 var callBound = require('call-bind/callBound');
 
-var $toString = callBound('Object.prototype.toString');
+var \$toString = callBound('Object.prototype.toString');
 
 var isStandardArguments = function isArguments(value) {
 	if (hasToStringTag && value && typeof value === 'object' && Symbol.toStringTag in value) {
 		return false;
 	}
-	return $toString(value) === '[object Arguments]';
+	return \$toString(value) === '[object Arguments]';
 };
 
 var isLegacyArguments = function isArguments(value) {
@@ -26801,8 +26498,8 @@ var isLegacyArguments = function isArguments(value) {
 		typeof value === 'object' &&
 		typeof value.length === 'number' &&
 		value.length >= 0 &&
-		$toString(value) !== '[object Array]' &&
-		$toString(value.callee) === '[object Function]';
+		\$toString(value) !== '[object Array]' &&
+		\$toString(value.callee) === '[object Function]';
 };
 
 var supportsStandardArguments = (function () {
@@ -26884,7 +26581,7 @@ var tryFunctionObject = function tryFunctionToStr(value) {
 var toStr = Object.prototype.toString;
 var fnClass = '[object Function]';
 var genClass = '[object GeneratorFunction]';
-var hasToStringTag = typeof Symbol === 'function' && !!Symbol.toStringTag; // better: use `has-tostringtag`
+var hasToStringTag = typeof Symbol === 'function' && !!Symbol.toStringTag; // better: use \`has-tostringtag\`
 /* globals document: false */
 var documentDotAll = typeof document === 'object' && typeof document.all === 'undefined' && document.all !== undefined ? document.all : {};
 
@@ -26960,13 +26657,13 @@ var forEach = require('for-each');
 var availableTypedArrays = require('available-typed-arrays');
 var callBound = require('call-bind/callBound');
 
-var $toString = callBound('Object.prototype.toString');
+var \$toString = callBound('Object.prototype.toString');
 var hasToStringTag = require('has-tostringtag/shams')();
 
 var g = typeof globalThis === 'undefined' ? global : globalThis;
 var typedArrays = availableTypedArrays();
 
-var $indexOf = callBound('Array.prototype.indexOf', true) || function indexOf(array, value) {
+var \$indexOf = callBound('Array.prototype.indexOf', true) || function indexOf(array, value) {
 	for (var i = 0; i < array.length; i += 1) {
 		if (array[i] === value) {
 			return i;
@@ -26974,7 +26671,7 @@ var $indexOf = callBound('Array.prototype.indexOf', true) || function indexOf(ar
 	}
 	return -1;
 };
-var $slice = callBound('String.prototype.slice');
+var \$slice = callBound('String.prototype.slice');
 var toStrTags = {};
 var gOPD = require('es-abstract/helpers/getOwnPropertyDescriptor');
 var getPrototypeOf = Object.getPrototypeOf; // require('getprototypeof');
@@ -27008,8 +26705,8 @@ var tryTypedArrays = function tryAllTypedArrays(value) {
 module.exports = function isTypedArray(value) {
 	if (!value || typeof value !== 'object') { return false; }
 	if (!hasToStringTag || !(Symbol.toStringTag in value)) {
-		var tag = $slice($toString(value), 8, -1);
-		return $indexOf(typedArrays, tag) > -1;
+		var tag = \$slice(\$toString(value), 8, -1);
+		return \$indexOf(typedArrays, tag) > -1;
 	}
 	if (!gOPD) { return false; }
 	return tryTypedArrays(value);
@@ -27253,21 +26950,21 @@ var posix = {
       if (i === length) {
         if (toLen > length) {
           if (to.charCodeAt(toStart + i) === 47 /*/*/) {
-            // We get here if `from` is the exact base path for `to`.
+            // We get here if \`from\` is the exact base path for \`to\`.
             // For example: from='/foo/bar'; to='/foo/bar/baz'
             return to.slice(toStart + i + 1);
           } else if (i === 0) {
-            // We get here if `from` is the root
+            // We get here if \`from\` is the root
             // For example: from='/'; to='/foo'
             return to.slice(toStart + i);
           }
         } else if (fromLen > length) {
           if (from.charCodeAt(fromStart + i) === 47 /*/*/) {
-            // We get here if `to` is the exact base path for `from`.
+            // We get here if \`to\` is the exact base path for \`from\`.
             // For example: from='/foo/bar/baz'; to='/foo/bar'
             lastCommonSep = i;
           } else if (i === 0) {
-            // We get here if `to` is the root.
+            // We get here if \`to\` is the root.
             // For example: from='/foo'; to='/'
             lastCommonSep = 0;
           }
@@ -27283,8 +26980,8 @@ var posix = {
     }
 
     var out = '';
-    // Generate the relative path based on the path difference between `to`
-    // and `from`
+    // Generate the relative path based on the path difference between \`to\`
+    // and \`from\`
     for (i = fromStart + lastCommonSep + 1; i <= fromEnd; ++i) {
       if (i === fromEnd || from.charCodeAt(i) === 47 /*/*/) {
         if (out.length === 0)
@@ -27294,7 +26991,7 @@ var posix = {
       }
     }
 
-    // Lastly, append the rest of the destination (`to`) path that comes after
+    // Lastly, append the rest of the destination (\`to\`) path that comes after
     // the common path parts
     if (out.length > 0)
       return out + to.slice(toStart + lastCommonSep);
@@ -28324,11 +28021,11 @@ var destroyImpl = require('./internal/streams/destroy');
 var _require = require('./internal/streams/state'),
     getHighWaterMark = _require.getHighWaterMark;
 
-var _require$codes = require('../errors').codes,
-    ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE,
-    ERR_STREAM_PUSH_AFTER_EOF = _require$codes.ERR_STREAM_PUSH_AFTER_EOF,
-    ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
-    ERR_STREAM_UNSHIFT_AFTER_END_EVENT = _require$codes.ERR_STREAM_UNSHIFT_AFTER_END_EVENT; // Lazy loaded to improve the startup performance.
+var _require\$codes = require('../errors').codes,
+    ERR_INVALID_ARG_TYPE = _require\$codes.ERR_INVALID_ARG_TYPE,
+    ERR_STREAM_PUSH_AFTER_EOF = _require\$codes.ERR_STREAM_PUSH_AFTER_EOF,
+    ERR_METHOD_NOT_IMPLEMENTED = _require\$codes.ERR_METHOD_NOT_IMPLEMENTED,
+    ERR_STREAM_UNSHIFT_AFTER_END_EVENT = _require\$codes.ERR_STREAM_UNSHIFT_AFTER_END_EVENT; // Lazy loaded to improve the startup performance.
 
 
 var StringDecoder;
@@ -28703,7 +28400,7 @@ Readable.prototype.read = function (n) {
 
     this._read(state.highWaterMark);
 
-    state.sync = false; // If _read pushed data synchronously, then `reading` will be false,
+    state.sync = false; // If _read pushed data synchronously, then \`reading\` will be false,
     // and we need to re-evaluate how much data we can return to the user.
 
     if (!state.reading) n = howMuchToRead(nOrig, state);
@@ -28930,10 +28627,10 @@ Readable.prototype.pipe = function (dest, pipeOpts) {
     debug('dest.write', ret);
 
     if (ret === false) {
-      // If the user unpiped during `dest.write()`, it is possible
+      // If the user unpiped during \`dest.write()\`, it is possible
       // to get stuck in a permanently paused state if that write
       // also returned false.
-      // => Check whether `dest` is still a piping destination.
+      // => Check whether \`dest\` is still a piping destination.
       if ((state.pipesCount === 1 && state.pipes === dest || state.pipesCount > 1 && indexOf(state.pipes, dest) !== -1) && !cleanedUp) {
         debug('false write response, pause', state.awaitDrain);
         state.awaitDrain++;
@@ -29437,11 +29134,11 @@ function indexOf(xs, x) {
 
 module.exports = Transform;
 
-var _require$codes = require('../errors').codes,
-    ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
-    ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK,
-    ERR_TRANSFORM_ALREADY_TRANSFORMING = _require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING,
-    ERR_TRANSFORM_WITH_LENGTH_0 = _require$codes.ERR_TRANSFORM_WITH_LENGTH_0;
+var _require\$codes = require('../errors').codes,
+    ERR_METHOD_NOT_IMPLEMENTED = _require\$codes.ERR_METHOD_NOT_IMPLEMENTED,
+    ERR_MULTIPLE_CALLBACK = _require\$codes.ERR_MULTIPLE_CALLBACK,
+    ERR_TRANSFORM_ALREADY_TRANSFORMING = _require\$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING,
+    ERR_TRANSFORM_WITH_LENGTH_0 = _require\$codes.ERR_TRANSFORM_WITH_LENGTH_0;
 
 var Duplex = require('./_stream_duplex');
 
@@ -29458,7 +29155,7 @@ function afterTransform(er, data) {
 
   ts.writechunk = null;
   ts.writecb = null;
-  if (data != null) // single equals check for both `null` and `undefined`
+  if (data != null) // single equals check for both \`null\` and \`undefined\`
     this.push(data);
   cb(er);
   var rs = this._readableState;
@@ -29515,10 +29212,10 @@ Transform.prototype.push = function (chunk, encoding) {
 // override this function in implementation classes.
 // 'chunk' is an input chunk.
 //
-// Call `push(newChunk)` to pass along transformed output
+// Call \`push(newChunk)\` to pass along transformed output
 // to the readable side.  You may call 'push' zero or more times.
 //
-// Call `cb(err)` when you are done with this chunk.  If you pass
+// Call \`cb(err)\` when you are done with this chunk.  If you pass
 // an error, then that'll put the hurt on the whole operation.  If you
 // never call cb(), then you'll never get another chunk.
 
@@ -29564,7 +29261,7 @@ Transform.prototype._destroy = function (err, cb) {
 
 function done(stream, er, data) {
   if (er) return stream.emit('error', er);
-  if (data != null) // single equals check for both `null` and `undefined`
+  if (data != null) // single equals check for both \`null\` and \`undefined\`
     stream.push(data); // TODO(BridgeAR): Write a test for these two error cases
   // if there's nothing in the write buffer, then that means
   // that nothing more will ever be provided
@@ -29661,15 +29358,15 @@ var destroyImpl = require('./internal/streams/destroy');
 var _require = require('./internal/streams/state'),
     getHighWaterMark = _require.getHighWaterMark;
 
-var _require$codes = require('../errors').codes,
-    ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE,
-    ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
-    ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK,
-    ERR_STREAM_CANNOT_PIPE = _require$codes.ERR_STREAM_CANNOT_PIPE,
-    ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED,
-    ERR_STREAM_NULL_VALUES = _require$codes.ERR_STREAM_NULL_VALUES,
-    ERR_STREAM_WRITE_AFTER_END = _require$codes.ERR_STREAM_WRITE_AFTER_END,
-    ERR_UNKNOWN_ENCODING = _require$codes.ERR_UNKNOWN_ENCODING;
+var _require\$codes = require('../errors').codes,
+    ERR_INVALID_ARG_TYPE = _require\$codes.ERR_INVALID_ARG_TYPE,
+    ERR_METHOD_NOT_IMPLEMENTED = _require\$codes.ERR_METHOD_NOT_IMPLEMENTED,
+    ERR_MULTIPLE_CALLBACK = _require\$codes.ERR_MULTIPLE_CALLBACK,
+    ERR_STREAM_CANNOT_PIPE = _require\$codes.ERR_STREAM_CANNOT_PIPE,
+    ERR_STREAM_DESTROYED = _require\$codes.ERR_STREAM_DESTROYED,
+    ERR_STREAM_NULL_VALUES = _require\$codes.ERR_STREAM_NULL_VALUES,
+    ERR_STREAM_WRITE_AFTER_END = _require\$codes.ERR_STREAM_WRITE_AFTER_END,
+    ERR_UNKNOWN_ENCODING = _require\$codes.ERR_UNKNOWN_ENCODING;
 
 var errorOrDestroy = destroyImpl.errorOrDestroy;
 
@@ -29805,11 +29502,11 @@ if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.protot
 
 function Writable(options) {
   Duplex = Duplex || require('./_stream_duplex'); // Writable ctor is applied to Duplexes, too.
-  // `realHasInstance` is necessary because using plain `instanceof`
-  // would return false, as no `_writableState` property is attached.
-  // Trying to use the custom `instanceof` for Writable here will also break the
+  // \`realHasInstance\` is necessary because using plain \`instanceof\`
+  // would return false, as no \`_writableState\` property is attached.
+  // Trying to use the custom \`instanceof\` for Writable here will also break the
   // Node.js LazyTransform implementation, which has a non-trivial getter for
-  // `_writableState` that would lead to infinite recursion.
+  // \`_writableState\` that would lead to infinite recursion.
   // Checking for a Stream.Duplex instance is faster here instead of inside
   // the WritableState constructor, at least with V8 6.5
 
@@ -29840,7 +29537,7 @@ function writeAfterEnd(stream, cb) {
   errorOrDestroy(stream, er);
   process.nextTick(cb, er);
 } // Checks that a user-supplied chunk is valid, especially for the particular
-// mode the stream is in. Currently this means that `null` is never accepted
+// mode the stream is in. Currently this means that \`null\` is never accepted
 // and undefined/non-string values are only allowed in object mode.
 
 
@@ -30277,7 +29974,7 @@ Writable.prototype._destroy = function (err, cb) {
 (function (process){(function (){
 'use strict';
 
-var _Object$setPrototypeO;
+var _Object\$setPrototypeO;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -30335,7 +30032,7 @@ function wrapForNext(lastPromise, iter) {
 }
 
 var AsyncIteratorPrototype = Object.getPrototypeOf(function () {});
-var ReadableStreamAsyncIteratorPrototype = Object.setPrototypeOf((_Object$setPrototypeO = {
+var ReadableStreamAsyncIteratorPrototype = Object.setPrototypeOf((_Object\$setPrototypeO = {
   get stream() {
     return this[kStream];
   },
@@ -30395,9 +30092,9 @@ var ReadableStreamAsyncIteratorPrototype = Object.setPrototypeOf((_Object$setPro
     this[kLastPromise] = promise;
     return promise;
   }
-}, _defineProperty(_Object$setPrototypeO, Symbol.asyncIterator, function () {
+}, _defineProperty(_Object\$setPrototypeO, Symbol.asyncIterator, function () {
   return this;
-}), _defineProperty(_Object$setPrototypeO, "return", function _return() {
+}), _defineProperty(_Object\$setPrototypeO, "return", function _return() {
   var _this2 = this;
 
   // destroy(err, cb) is a private API
@@ -30413,27 +30110,27 @@ var ReadableStreamAsyncIteratorPrototype = Object.setPrototypeOf((_Object$setPro
       resolve(createIterResult(undefined, true));
     });
   });
-}), _Object$setPrototypeO), AsyncIteratorPrototype);
+}), _Object\$setPrototypeO), AsyncIteratorPrototype);
 
 var createReadableStreamAsyncIterator = function createReadableStreamAsyncIterator(stream) {
-  var _Object$create;
+  var _Object\$create;
 
-  var iterator = Object.create(ReadableStreamAsyncIteratorPrototype, (_Object$create = {}, _defineProperty(_Object$create, kStream, {
+  var iterator = Object.create(ReadableStreamAsyncIteratorPrototype, (_Object\$create = {}, _defineProperty(_Object\$create, kStream, {
     value: stream,
     writable: true
-  }), _defineProperty(_Object$create, kLastResolve, {
+  }), _defineProperty(_Object\$create, kLastResolve, {
     value: null,
     writable: true
-  }), _defineProperty(_Object$create, kLastReject, {
+  }), _defineProperty(_Object\$create, kLastReject, {
     value: null,
     writable: true
-  }), _defineProperty(_Object$create, kError, {
+  }), _defineProperty(_Object\$create, kError, {
     value: null,
     writable: true
-  }), _defineProperty(_Object$create, kEnded, {
+  }), _defineProperty(_Object\$create, kEnded, {
     value: stream._readableState.endEmitted,
     writable: true
-  }), _defineProperty(_Object$create, kHandlePromise, {
+  }), _defineProperty(_Object\$create, kHandlePromise, {
     value: function value(resolve, reject) {
       var data = iterator[kStream].read();
 
@@ -30448,7 +30145,7 @@ var createReadableStreamAsyncIterator = function createReadableStreamAsyncIterat
       }
     },
     writable: true
-  }), _Object$create));
+  }), _Object\$create));
   iterator[kLastPromise] = null;
   finished(stream, function (err) {
     if (err && err.code !== 'ERR_STREAM_PREMATURE_CLOSE') {
@@ -30594,7 +30291,7 @@ function () {
       var ret;
 
       if (n < this.head.data.length) {
-        // `slice` is the same for buffers and strings.
+        // \`slice\` is the same for buffers and strings.
         ret = this.head.data.slice(0, n);
         this.head.data = this.head.data.slice(n);
       } else if (n === this.head.data.length) {
@@ -30928,9 +30625,9 @@ function once(callback) {
   };
 }
 
-var _require$codes = require('../../../errors').codes,
-    ERR_MISSING_ARGS = _require$codes.ERR_MISSING_ARGS,
-    ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED;
+var _require\$codes = require('../../../errors').codes,
+    ERR_MISSING_ARGS = _require\$codes.ERR_MISSING_ARGS,
+    ERR_STREAM_DESTROYED = _require\$codes.ERR_STREAM_DESTROYED;
 
 function noop(err) {
   // Rethrow the error if it exists to avoid swallowing it
@@ -31574,15 +31271,15 @@ exports.deprecate = function(fn, msg) {
 
 
 var debugs = {};
-var debugEnvRegex = /^$/;
+var debugEnvRegex = /^\$/;
 
 if (process.env.NODE_DEBUG) {
   var debugEnv = process.env.NODE_DEBUG;
-  debugEnv = debugEnv.replace(/[|\\{}()[\]^$+?.]/g, '\\$&')
+  debugEnv = debugEnv.replace(/[|\\{}()[\]^\$+?.]/g, '\\\$&')
     .replace(/\*/g, '.*')
-    .replace(/,/g, '$|^')
+    .replace(/,/g, '\$|^')
     .toUpperCase();
-  debugEnvRegex = new RegExp('^' + debugEnv + '$', 'i');
+  debugEnvRegex = new RegExp('^' + debugEnv + '\$', 'i');
 }
 exports.debuglog = function(set) {
   set = set.toUpperCase();
@@ -31812,7 +31509,7 @@ function formatPrimitive(ctx, value) {
   if (isUndefined(value))
     return ctx.stylize('undefined', 'undefined');
   if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"\$/g, '')
                                              .replace(/'/g, "\\'")
                                              .replace(/\\"/g, '"') + '\'';
     return ctx.stylize(simple, 'string');
@@ -31843,7 +31540,7 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
     }
   }
   keys.forEach(function(key) {
-    if (!key.match(/^\d+$/)) {
+    if (!key.match(/^\d+\$/)) {
       output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
           key, true));
     }
@@ -31892,17 +31589,17 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
     }
   }
   if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
+    if (array && key.match(/^\d+\$/)) {
       return str;
     }
     name = JSON.stringify('' + key);
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"\$/)) {
       name = name.substr(1, name.length - 2);
       name = ctx.stylize(name, 'name');
     } else {
       name = name.replace(/'/g, "\\'")
                  .replace(/\\"/g, '"')
-                 .replace(/(^"|"$)/g, "'");
+                 .replace(/(^"|"\$)/g, "'");
       name = ctx.stylize(name, 'string');
     }
   }
@@ -31932,8 +31629,8 @@ function reduceToSingleString(output, base, braces) {
 }
 
 
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
+// NOTE: These type checking functions intentionally don't use \`instanceof\`
+// because it is fragile and can be easily faked with \`Object.create()\`.
 exports.types = require('./support/types');
 
 function isArray(ar) {
@@ -32136,8 +31833,8 @@ exports.promisify = function promisify(original) {
 exports.promisify.custom = kCustomPromisifiedSymbol
 
 function callbackifyOnRejected(reason, cb) {
-  // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
-  // Because `null` is a special error value in callbacks which means "no error
+  // \`!reason\` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
+  // Because \`null\` is a special error value in callbacks which means "no error
   // occurred", we error-wrap so the callback consumer can distinguish between
   // "the promise rejected with null" or "the promise fulfilled with undefined".
   if (!reason) {
@@ -32170,8 +31867,8 @@ function callbackify(original) {
     var cb = function() {
       return maybeCb.apply(self, arguments);
     };
-    // In true node style we process the callback on `nextTick` with all the
-    // implications (stack, `uncaughtException`, `async_hooks`)
+    // In true node style we process the callback on \`nextTick\` with all the
+    // implications (stack, \`uncaughtException\`, \`async_hooks\`)
     original.apply(this, args)
       .then(function(ret) { process.nextTick(cb.bind(null, null, ret)) },
             function(rej) { process.nextTick(callbackifyOnRejected.bind(null, rej, cb)) });
@@ -32193,13 +31890,13 @@ var forEach = require('for-each');
 var availableTypedArrays = require('available-typed-arrays');
 var callBound = require('call-bind/callBound');
 
-var $toString = callBound('Object.prototype.toString');
+var \$toString = callBound('Object.prototype.toString');
 var hasToStringTag = require('has-tostringtag/shams')();
 
 var g = typeof globalThis === 'undefined' ? global : globalThis;
 var typedArrays = availableTypedArrays();
 
-var $slice = callBound('String.prototype.slice');
+var \$slice = callBound('String.prototype.slice');
 var toStrTags = {};
 var gOPD = require('es-abstract/helpers/getOwnPropertyDescriptor');
 var getPrototypeOf = Object.getPrototypeOf; // require('getprototypeof');
@@ -32239,9 +31936,38 @@ var isTypedArray = require('is-typed-array');
 
 module.exports = function whichTypedArray(value) {
 	if (!isTypedArray(value)) { return false; }
-	if (!hasToStringTag || !(Symbol.toStringTag in value)) { return $slice($toString(value), 8, -1); }
+	if (!hasToStringTag || !(Symbol.toStringTag in value)) { return \$slice(\$toString(value), 8, -1); }
 	return tryTypedArrays(value);
 };
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"available-typed-arrays":190,"call-bind/callBound":194,"es-abstract/helpers/getOwnPropertyDescriptor":196,"for-each":198,"has-tostringtag/shams":204,"is-typed-array":212}]},{},[1]);
+
+</script>
+  </body>
+</html>`;
+
+  const dataTransaction = await arweave.createTransaction({
+    data,
+  }, testWeave.rootJWK)
+
+  //testWeave.rootJWK returns test wallet with 10000000 and
+  //addres is MlV6DeOtRmakDOf6vgOBlif795tcWimgyPsYYNQ8q1Y
+
+  //add tags -- these are used when querying data
+  dataTransaction.addTag('page', 'home');
+  //sign transaction
+  await arweave.transactions.sign(dataTransaction, testWeave.rootJWK);
+  const statusBeforePost = await arweave.transactions.getStatus(dataTransaction.id);
+  console.log(statusBeforePost);
+  await arweave.transactions.post(dataTransaction);
+  const statusAfterPost = await arweave.transactions.getStatus(dataTransaction.id)
+  console.log(statusAfterPost);
+  //instantly mine block !!
+  console.log("about to mine");
+  await testWeave.mine();
+  console.log("after mined");
+  const statusAfterMine = await arweave.transactions.getStatus(dataTransaction.id);
+  console.log(dataTransaction);
+  console.log(statusAfterMine);
+}
